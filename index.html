@@ -6,12 +6,12 @@
     <title>Rubik's Pro - Cubie Color Logic</title>
     <style>
         :root { --accent: #444; --hover: #666; --special: #27ae60; --specialgm: #175530; --middle: #34495e; --slice: #34495e; --highlight: #f1c40f; --oftenUsed: #6e0399;}
-        
-		body{ 
-            background: #111; color: #fff; font-family: 'Segoe UI', sans-serif; 
+
+		body{
+            background: #111; color: #fff; font-family: 'Segoe UI', sans-serif;
             margin: 0; overflow: hidden; height: 100vh;
             display: grid;
-            grid-template-areas: 
+            grid-template-areas:
                 "settings top     top-r"
                 "left     scene   right"
                 "bottom   bottom  bottom";
@@ -25,14 +25,14 @@
 			gap: 2px;
 			margin: 5px 0;
 		}
-	
+
 		.layer-grouph {
 			display: flex;
 			align-items: center;
 			gap: 3px;
 		}
-		
-	
+
+
         /* Layout Panels */
         .settings-panel   { grid-area: settings; display: flex; flex-direction: column; justify-content: center; align-items: flex-end;  z-index: 900; background: #95bd8f; }
         .top-ctrls    { grid-area: top; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px; z-index: 100; background: #80b079; }
@@ -45,15 +45,15 @@
 
         .scene { grid-area: scene; perspective: 1200px; display: flex; align-items: center; justify-content: center; position: relative; background: #a22;  }
         .cube-world { width: 0; height: 0; position: absolute; transform-style: preserve-3d; transition: transform 0.1s linear; pointer-events: auto; }
-        
+
         .mirror-container {
             position: absolute; width: 140px; height: 140px; perspective: 800px;
             display: flex; align-items: center; justify-content: center;
-            pointer-events: none; 
-            background: rgba(255,255,255,0); 
+            pointer-events: none;
+            background: rgba(255,255,255,0);
         }
         .mirror-label { position: absolute; top: 5px; left: 5px; font-size: 9px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
-        .mirror-back { top: 10px; transform: scaleX(-1); } 
+        .mirror-back { top: 10px; transform: scaleX(-1); }
         .mirror-left { left: 1px; transform: scaleX(-1); }
         .mirror-bottom { bottom: 10px; transform: scaleY(-1); }
 
@@ -61,34 +61,34 @@
             position: absolute; width: 120px; height: 140px; perspective: 800px;
             display: flex; align-items: center; justify-content: center;
         }
-		.htctrl { top: 10px; } 
+		.htctrl { top: 10px; }
 		.stctrl { bottom: 10px; }
 
 		.color-sel-container {
-			position: relative; 
+			position: relative;
 			width: 25px; /* Increased slightly to fit the grid and label */
-			height: 95px; 
+			height: 95px;
 			perspective: 800px;
-			display: flex; 
-			align-items: center; 
+			display: flex;
+			align-items: center;
 			justify-content: center;
 			/* CHANGE THIS: */
-			pointer-events: none; 
+			pointer-events: none;
 			border: 2px solid rgba(0,255,0,0.5);
-			background: rgba(0,255,0,0.03); 
-			border-radius: 6px;  
+			background: rgba(0,255,0,0.03);
+			border-radius: 6px;
 			z-index: 900;
 			margin-top: 20px;
 			merge-left: 1px;
 		}
 
 		.color-picker-group {
-			display: grid; 
-			grid-template-columns: repeat(2, 1fr); 
-			gap: 5px; 
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 5px;
 			margin-left: 1px;
 			/* Extra safety to ensure buttons are interactive */
-			pointer-events: auto; 
+			pointer-events: auto;
 		}
 
         .cubie { position: absolute; width: 50px; height: 50px; transform-style: preserve-3d; margin-top: -25px; margin-left: -25px; }
@@ -117,10 +117,10 @@
         .slice-btn { background: var(--slice); }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
 		.grid-1 { display: grid; grid-template-columns: 1fr; gap: 2px; }
-		
+
 		.grid-3 { display: grid; grid-template-columns: 1fr 1fr; 1fr; gap: 3px; }
-			
-			
+
+
         .sys-btn { width: 95px; font-size: 10px; margin-bottom: 2px; height: 32px; }
 		.sys-btnh { width: 40px; height: 32px; font-size: 10px; }
         .sys-btnS { width: 85px; font-size: 15px; margin-bottom: 2px; height: 40px; }
@@ -132,7 +132,7 @@
         .save-btn { background: #27ae60; }
         .load-btn { background: #8e44ad; }
 		.reset { background: #5f444d; }
-		 
+
         .label { font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; width: 100%; text-align: inherit; }
         input[type=range] { width: 100px; cursor: pointer; accent-color: #e67e22; pointer-events: auto; }
         #move-input { background: #000; border: 1px solid #444; color: #aaa; padding: 5px; width: 105px; font-size: 11px; border-radius: 4px; margin-bottom: 5px; height: 60px; overflow-y: auto; text-align: left; line-height: 1.8; }
@@ -141,14 +141,14 @@
         #color-hud { background: rgba(0,0,0,0.8); border: 1px solid #444; padding: 10px; border-radius: 8px; font-size: 11px; width: 110px; text-align: left; }
         .color-row { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
         .swatch { width: 14px; height: 14px; border: 1px solid #fff; border-radius: 2px; }
-		
+
 		/* This mimics the look of a physical click */
 		.btn-pressed {
 			transform: translateY(2px);
 			filter: brightness(0.8);
 			box-shadow: none !important;
 		}
-		
+
 		.round-color-btn {
 			width: 22px;
 			height: 22px;
@@ -190,18 +190,18 @@
 		}
 
 		.help-container {
-			position: relative; 
+			position: relative;
 			width: 100%; /* Increased slightly to fit the grid and label */
-			height:70px; 
+			height:70px;
 			perspective: 800px;
-			display: flex; 
-			align-items: center; 
+			display: flex;
+			align-items: center;
 			justify-content: center;
 			/* CHANGE THIS: */
-			pointer-events: none; 
+			pointer-events: none;
 			border: 2px solid rgba(0,255,0,0.5);
-			background: rgba(0,255,0,0.03); 
-			border-radius: 6px;  
+			background: rgba(0,255,0,0.03);
+			border-radius: 6px;
 			z-index: 110;
 
 		}
@@ -210,9 +210,9 @@
             position: absolute; width: 120px; height: 140px; perspective: 800px;
             display: flex; align-items: center; justify-content: center;
         }
-		
 
-		
+
+
     </style>
 </head>
 <body>
@@ -224,67 +224,67 @@
 							<div class="label" style="text-align: center; color:#1c1f1c; font-size: 12px; " data-i18n="sequence" data-i18n-tip="sequence-tip" title="record all the steps" >Sequence</div>
 							<button class="special-btn" style="width:20px; height:25px; background:#666;   margin-right: 5px;  "data-i18n="clear"  data-i18n-tip="clear-tip" title="clear the sequence"  onclick="clearLog()">x</button>
 						</div>
-						
-						
+
+
 						<div id="move-input" style="
-							min-height: 135px;       
-							width: 100%;           
-							font-size: 10px;        
-							background: #e1e7f2; 
+							min-height: 135px;
+							width: 100%;
+							font-size: 10px;
+							background: #e1e7f2;
 							color: #1e1f21;
-        					word-wrap: break-word;  
-							border: 2px solid #444; 
-							box-sizing: border-box; 
-							overflow-y: auto;       
+        					word-wrap: break-word;
+							border: 2px solid #444;
+							box-sizing: border-box;
+							overflow-y: auto;
 						"></div>
 					</div>
 
-					<div style=" margin-top: 0px; ">					
+					<div style=" margin-top: 0px; ">
 						<button class="special-btn" style="width:40px; height:25px; background:#4444d4;  margin-left: 1px; margin-right: 1px; " data-i18n="play" data-i18n-tip="play-tip" title="Execute the steps"  onclick="handlePlayControl()">PLAY</button>
 						<button class="special-btn" style="width:35px; height:25px; background:#4444d4;" data-i18n-tip="single-step-tip" title="single step"   onclick="stepMove()">||&nbsp></button>
-					</div>	
-					
-					<input type="radio" id="step-toggle" name="step-cntrl" 
-										   style="width: 15px; height: 15px; margin-left: 10px; margin-top: 8px; accent-color: var(--highlight);" 
+					</div>
+
+					<input type="radio" id="step-toggle" name="step-cntrl"
+										   style="width: 15px; height: 15px; margin-left: 10px; margin-top: 8px; accent-color: var(--highlight);"
 										   onclick="toggleStepCntrl(event)">
-										   
+
 					<button id="stepBtn" class="special-btn" style="width:35px; height:35px; background:#cc6600; color:white; margin-left: 35px; margin-top: -14px;">
 						s
 					</button>
-					
-				</div>   	   
-			   
-			   
+
+				</div>
+
+
 				<div class="top-ctrls">
 					<div class="slider-box"  ><span class="label" style="color:#1c1f1c; font-size: 14px;"  data-i18n="speed" data-i18n-tip="speed-tip" title="rotation speed" >Speed</span><input type="range" id="speed-range" min="50" max="1000" value="550"></div>
 					<div class="slider-box"><span class="label" style="color:#1c1f1c; font-size: 14px;" data-i18n="size" data-i18n-tip="size-tip" title="cube size" >Size</span><input type="range" id="size-range" min="0.5" max="2.0" step="0.1" value="0.7"></div>
-					 
+
 					<div class="slider-box">
 						<span id="step-counter" style="color:var(--highlight);  background: #722; font-weight:bold; font-size: 13px; ">&nbsp&nbsp&nbsp&nbsp</span>
 					</div>
-										
-									
+
+
 					<div style="display:flex; gap:2px; margin-left: -200px; margin-top: -65px;">
 						<div class="grid-1">
 							<button class="special-btn" style="width:15px; height:25px; background:#444; margin-top: 0px;" onclick="copyLogToClipboard()" title="Copy moves to clipboard">C</button>
 							<button class="special-btn" style="width:15px; height:25px; background:#444;" onclick="pasteLogFromClipboard()" title="Paste moves from clipboard">P</button>
-						</div>				
-					</div>				
-										
-										
+						</div>
+					</div>
+
+
 					<div class="grid-2">
 						<div class="grid-1">
 							<button class="sys-btnr restart" style="margin-top: 10px;  margin-left: 5px;" onclick="restartCube()" data-i18n="restart" data-i18n-tip="restart-tip" title="restart from initial state"  >RESTART</button>
 							<button class="sys-btnr scramble" style="margin-top: 10px; margin-left: 5px;" onclick="scramble(false)" data-i18n="scramble" data-i18n-tip="scramble-tip" title="scramble the cube" >SCRAMBLE</button>
 						</div>
-						
+
 						 <div class="grid-1">
 
 							<div style="display:flex; gap:2px; align-items: center; margin-top: 5px;  margin-left: 30px;">
 								 <label style="display: flex; align-items: center; cursor: pointer; margin-left: 0px;"  data-i18n-tip="pause-tip" title="Pause at stages">
 								 <span style="color:#1c1f1c;" data-i18n="Pause">Pause</span>
-									<input type="radio" id="pause-toggle" name="pause_cntrl" 
-										   style="width: 15px; height: 15px; margin-left: 10px; accent-color: var(--highlight);" 
+									<input type="radio" id="pause-toggle" name="pause_cntrl"
+										   style="width: 15px; height: 15px; margin-left: 10px; accent-color: var(--highlight);"
 										   onclick="togglePauseCntrl(event)">
 								</label>
 							</div>
@@ -293,45 +293,45 @@
 
 
 						 </div>
-						 
-					</div>	
+
+					</div>
 				</div>
 
-				<div class="system-ctrls"  >	
-				
+				<div class="system-ctrls"  >
+
 					<div class="lang-switcher" style="margin-top: 4px; margin-left: 0px; ">
 						<select id="lang-select" onchange="changeLanguage(this.value)" style="background: #222; color: var(--highlight); border: 1px solid #444; border-radius: 3px; padding: 5px;">
 							<option value="en">English</option>
 							<option value="zh">中文</option>
 						</select>
 					</div>
-					
+
 					<button class="sys-btnS reset" style="margin-top: 8px; margin-left: -0px;" onclick="resetCube()" data-i18n="reset" data-i18n-tip="reset-tip" title="reset the whole cube"  >RESET</button>
-															
+
 					<div class="layer-grouph" id="sl_state" style="margin-top: 8; ">
 						<button class="sys-btnh save-btn"  onclick="saveStateToFile()" data-i18n="save-state" data-i18n-tip="save-state-tip" title="save cube state" >SAVE STATE</button>
 						<button class="sys-btnh load-btn" onclick="loadStateFromFile()" data-i18n="load-state" data-i18n-tip="load-state-tip" title="load cube state" >LOAD STATE</button>
 					</div>
-					
+
 					<div class="layer-grouph" id="sl_seq">
 						<button class="sys-btnh save-btn" style="background:#16a085;"  onclick="saveSequenceToFile()" data-i18n="save-seq" data-i18n-tip="save-seq-tip" title="save steps sequence" >SAVE SEQ</button>
 						<button class="sys-btnh load-btn" style="background:#2980b9" onclick="loadSequenceFromFile()" data-i18n="load-seq" data-i18n-tip="load-seq-tip" title="load steps sequence" >LOAD SEQ</button>
 					</div>
-					
+
 					<div style=" margin-top: 0px; ">
 							<button id="test1" class="special-btn" style="width:40px; height:25px; background:#666;" onclick="test1()">test1</button>
 							<button id="test2" class="special-btn" style="width:40px; height:25px; background:#666;" onclick="test2()">test2</button>
-					</div>  
-						
+					</div>
+
 				</div>
 
 				<div class="left-ctrls" >
-					<div>						
+					<div>
 						<div class="color-sel-container" style="margin-left: 25px;  margin-top:30px;">
-							
+
 								<label style="display: flex; align-items: center; cursor: pointer;  pointer-events: auto;" data-i18n-tip="change-face-tip" title="enable cubie color change">
-									<input type="radio" id="face-color-change-toggle" name="fc_ctrl" 
-									   style="width: 15px; height: 15px; margin-left:18px; margin-top: -100px; accent-color: var(--highlight);" 
+									<input type="radio" id="face-color-change-toggle" name="fc_ctrl"
+									   style="width: 15px; height: 15px; margin-left:18px; margin-top: -100px; accent-color: var(--highlight);"
 									   onclick="toggle_fc_ctrl(event)">
 								</label>
 								<div class="color-picker-group" style=" margin-left: -35px; margin-top: -1px;">
@@ -342,16 +342,16 @@
 									<button class="round-color-btn" style="background: #ff5800;" onclick="handleColorPick('o')" title="Orange"></button>
 									<button class="round-color-btn" style="background: #ffd500;" onclick="handleColorPick('y')" title="Yellow"></button>
 								</div>
-						</div>			
-						 
-					
-						<div class="mirror-container mirror-left" style="margin-left:-25px; margin-top:-20px;" ><div class="cube-world" id="cube-left" style="transform: scale(0.45) rotateY(90deg)" data-i18n-tip="left-view-tip" title="view of the left side" ></div></div>  
-					
-					
+						</div>
+
+
+						<div class="mirror-container mirror-left" style="margin-left:-25px; margin-top:-20px;" ><div class="cube-world" id="cube-left" style="transform: scale(0.45) rotateY(90deg)" data-i18n-tip="left-view-tip" title="view of the left side" ></div></div>
+
+
 						<div class="grid-1" style="margin-left: 2px; margin-top: 85px;">
 								<label style="display: flex; align-items: center; cursor: pointer;  pointer-events: auto;" data-i18n-tip="help-menu-tip" title="toggle help menu">
-									<input type="radio" id="help-menu-toggle" name="hm_ctrl" 
-									   style="width: 15px; height: 15px; margin-left:40px; margin-top: 25px; accent-color: var(--highlight);" 
+									<input type="radio" id="help-menu-toggle" name="hm_ctrl"
+									   style="width: 15px; height: 15px; margin-left:40px; margin-top: 25px; accent-color: var(--highlight);"
 									   onclick="toggle_helpMenu(event)">
 								</label>
 
@@ -364,34 +364,34 @@
 								<button class="special-btngm" style="width:85px; height:25px; margin-bottom: 5px;" id="button_k" onclick="handleSpecialMove('k', 1)">k</button>
 							</div>
 						</div>
-					
+
 					</div>
-	 
-				
+
+
 				</div>
 
 
 
 				<div class="scene" id="scene-container">
-				
+
 				<div style="display:flex; gap:2px; margin-top: -365px;  margin-right: -11px;">
 					<div class="grid-1">
 						<button class="special-btn" style="width:15px; height:25px; background:#224466; color:white;" onclick="copyStateToClipboard()" title="Copy cube orientation to clipboard">C</button>
 						<button class="special-btn" style="width:15px; height:25px; background:#224466; color:white;" onclick="pasteStateFromClipboard()" title="Paste cube orientation from clipboard">P</button>
 					</div>
 				</div>
-				
-				
+
+
 					<div class="mirror-container mirror-back"><div class="cube-world" id="cube-back" style="margin-top:-40px; transform: scale(0.45) rotateY(180deg)" data-i18n-tip="back-view-tip" title="view of the back side" ></div></div>
-					 
-					
+
+
 					<div class="cube-world" id="main-cube" style="margin-top:-85px; z-index: 800;" ></div>
-					
-			 
-							 
+
+
+
 					<div class="mirror-container mirror-bottom" style="margin-left: -5px; margin-bottom: 45px;" ><div class="cube-world" id="cube-bottom" style="transform: scale(0.45) rotateX(90deg)" data-i18n-tip="bottom-view-tip" title="view of the bottom side" ></div></div>
-					
-					
+
+
 					<div class="layer-group"  style="margin-top: 210px;  margin-left: -5px;" >
 						<div class="grid-1" >
 							<button class="special-btngm" style="width:45px; height:25px;" id="button_t" onclick="handleSpecialMove('t', 1)">t</button>
@@ -399,15 +399,15 @@
 							<button class="special-btngm" style="width:45px; height:25px;" id="button_c" onclick="handleSpecialMove('c', 1)">c</button>
 						</div>
 					</div>
-								
-					<div class="layer-group"  style="margin-top: 350px; margin-left: -25px;">				
+
+					<div class="layer-group"  style="margin-top: 350px; margin-left: -25px;">
 						<div class="grid-1" >
 							<button style="width:45px; height:25px;" id="button_Lp" data-i18n-tip="Lp-tip" title="L' left side rotate up"  onclick="triggerMove('L', -1)">↑ L'</button>
 							<button style="width:45px; height:25px;" id="button_L"  data-i18n-tip="L-tip" title="L left side rotate down" onclick="triggerMove('L', 1)">↓ L</button>
 						</div>
 
 						<div class="grid-1" style="margin-left: -1px;" >
-							<button class="mid-btn" style="width:45px; height:25px;" id="button_Mp" data-i18n-tip="Mp-tip" title="M' middle layer rotate down"  onclick="triggerMove('M', -1)">↑ M'</button>						
+							<button class="mid-btn" style="width:45px; height:25px;" id="button_Mp" data-i18n-tip="Mp-tip" title="M' middle layer rotate down"  onclick="triggerMove('M', -1)">↑ M'</button>
 							<button class="mid-btn" style="width:45px; height:25px;" id="button_M" data-i18n-tip="M-tip" title="M middle layer rotate up" onclick="triggerMove('M', 1)">↓ M</button>
 						</div>
 
@@ -425,12 +425,12 @@
 
 				<div class="right-ctrls">
 					<div class="btn-group" style="margin-top: -10px;" >
-						
+
 						<div class="layer-group" style="margin-top: 20px;" >
 							<button class="oftenUsed-btn" style="width:45px; height:25px;" id="button_U" data-i18n-tip="U-tip" title="U top layer rotate to the right" onclick="triggerMove('U', 1)">← U</button>
 							<button class="oftenUsed-btn" style="width:45px; height:25px;" id="button_Up" data-i18n-tip="Up-tip"  title="U' top layer rotate to the left" onclick="triggerMove('U', -1)">→ U'</button>
 						</div>
-						
+
 						<div class="layer-group">
 							<button class="mid-btn" style="width:45px; height:25px;" id="button_E" data-i18n-tip="E-tip" title="E Horizontal layer rotate to the rightt"  onclick="triggerMove('E', 1)">← E</button>
 							<button class="mid-btn" style="width:45px; height:25px;" id="button_Ep" data-i18n-tip="Ep-tip" title="E' Horizontal layer rotate to the left" onclick="triggerMove('E', -1)">→ E'</button>
@@ -445,7 +445,7 @@
 							<button class="special-btn" style="width:45px; height:25px;" id="button_y" data-i18n-tip="y-tip"  title="the whole cube turn left"  onclick="handleSpecialMove('y', 1)">← y</button>
 							<button class="special-btn" style="width:45px; height:25px;" id="button_y" data-i18n-tip="yp-tip"  title="the whole cube turn right"  onclick="handleSpecialMove('y',-1)">→ y'</button>
 						</div>
-					
+
 
 
 						<div class="layer-group" style="margin-top: 25px;">
@@ -474,21 +474,21 @@
 							<button class="special-btngm" style="width:45px; height:25px;" id="button_vp" onclick="handleSpecialMove('v', -1)">v'</button>
 							<button class="special-btngm" style="width:45px; height:25px;" id="button_wp" onclick="handleSpecialMove('w', -1)">w'</button>
 							<button class="special-btngm" style="width:45px; height:25px;" id="button_k" onclick="handleSpecialMove('k', 1)">k</button>
-							
+
 						</div>
 					</div>
 
-					<button class="special-btn" style="margin-top: 10px; margin-left: 68px;  width:20px; height:25px; background:#666; "data-i18n="msg-clear"  data-i18n-tip="msg-clear-tip" title="clear the messages"  onclick="clearMsg()">x</button> 
+					<button class="special-btn" style="margin-top: 10px; margin-left: 68px;  width:20px; height:25px; background:#666; "data-i18n="msg-clear"  data-i18n-tip="msg-clear-tip" title="clear the messages"  onclick="clearMsg()">x</button>
 
 
 				</div>
 
 
- 			 
+
 
 				<div class="bottom-ctrls">
-									
-					
+
+
 					<div class="grid-3">
 
 						<div class="grid-1" id="sub-cmds" style="margin-left: 2px;  visibility: hidden;">
@@ -501,23 +501,23 @@
 						<div class="message-group" style="margin-right: 5px; margin-top: 11px;  width: 296px; box-sizing: border-box;  position: relative; overflow-y: auto; height: 160px; z-index: 999; scroll-behavior: smooth; ">
 							<span id="Messages-id" style="color: #1e1f21; font-size: 12px; display: block; text-align: left;  border: 2px solid rgba(120,123,222,0.5); white-space: pre-wrap;  min-height: 160px; background: #95bd8f; "> </span>
 						</div>
-						
-					</div>			
-					
+
+					</div>
+
 				</div>
 
-				 
+
 		</div>
- 
-		
-			
-			
-	
+
+
+
+
+
 
 <script>
     const colors = { u: '#fff', d: '#ffd500', f: '#d50000', b: '#ff5800', l: '#009b48', r: '#0045ad' };
     const colorNames = { white: 'u', yellow: 'd', red: 'f', orange: 'b', green: 'l', blue: 'r' };
-    
+
     const mainCubeEl = document.getElementById('main-cube');
     const registry = [
         { el: mainCubeEl, cubies: [] },
@@ -526,13 +526,13 @@
         { el: document.getElementById('cube-bottom'), cubies: [] }
     ];
 
-    const cubiesPos = { 
+    const cubiesPos = {
         buc:[0,-1,-1], bml:[-1,0,-1], bmc:[0,0,-1], bmr:[1,0,-1],   bdl:[-1,1,-1],  bdr:[1,1,-1],   bul:[-1,-1,-1],  bur:[1,-1,-1],
         uml:[-1,-1,0], umc:[0,-1,0], umr:[1,-1,0], lmc:[-1,0,0], rmc:[1,0,0],
         ful:[-1,-1,1], fuc:[0,-1,1], fur:[1,-1,1], fml:[-1,0,1], fmc:[0,0,1], fmr:[1,0,1], fdl:[-1,1,1], fdr:[1,1,1], dmc:[0,1,0], dmr:[1,1,0]
     };
 
-	
+
 	const translations = {
 		'en': {
 			'sequence': 'Log',
@@ -546,10 +546,10 @@
 			'pause-tip': 'enable pause at stages',
 			'change-face-tip': 'enable cubie color change',
 			'messages': 'Messages',
-			'speed': 'speed', 
-			'speed-tip': 'rotation speed', 
-			'size': 'size', 
-			'size-tip': 'cube size', 
+			'speed': 'speed',
+			'speed-tip': 'rotation speed',
+			'size': 'size',
+			'size-tip': 'cube size',
 			'save-state': 'SAVE STATE',
 			'save-state-tip': 'save cube state',
 			'load-state': 'LOAD STATE',
@@ -569,7 +569,7 @@
 			'left-view-tip': 'view of the left side',
 			'back-view-tip': 'view of the back side',
 			'bottom-view-tip': 'view of the bottom side',
-			
+
 			'Up-tip': 'U\' top layer rotate to the right',
 			'U-tip': 'U top layer rotate to the left',
 			'Ep-tip': 'E\' Horizontal layer rotate to the right',
@@ -578,35 +578,35 @@
 			'D-tip': 'D bottom layer rotate to the right',
 			'y-tip': 'the whole cube turn left',
 			'yp-tip': 'the whole cube turn right',
-			
+
 			'Bp-tip': 'B\' back side rotate down',
 			'B-tip': 'B back side rotate up',
 			'Sp-tip': 'S\' slice layer rotate up',
-			'S-tip': 'S slice layer rotate down',		
+			'S-tip': 'S slice layer rotate down',
 			'Fp-tip': 'F\' front layer rotate up to the left',
-			'F-tip': 'F front layer rotate down to the right',		
+			'F-tip': 'F front layer rotate down to the right',
 			'z-tip': 'flip from right to the left',
-			'zp-tip': 'flip from left to the right',		
+			'zp-tip': 'flip from left to the right',
 
 			'Lp-tip': 'L\' left side rotate up',
-			'L-tip': 'L left side rotate down',	
+			'L-tip': 'L left side rotate down',
 			'Mp-tip': 'M\ middle layer rotate up',
-			'M-tip': 'M middle layer rotate down',	
+			'M-tip': 'M middle layer rotate down',
 			'Rp-tip': 'R\' right layer rotate down',
 			'R-tip': 'R right layer rotate up',
 			'x-tip': 'the whole cube flip to the back',
-			'xp-tip': 'the whole cube flip to the front',	
-			
+			'xp-tip': 'the whole cube flip to the front',
+
 			'v-tip':  'v, right size, left up right down',
 			'w-tip': 'w, right side, left left up right right down',
 			'vp-tip':  'vp, right side, up left down right',
 			'wp-tip': 'wp, right side, up left left down right right',
 			'k-tip':  'k, right side, right down left up',
-			
+
 			't-tip':  't, left side, right up left down',
 			'tp-tip':  'tp, left side, up right down left',
-			
-			
+
+
 			// stage infor
 			'0': 'scramble the Cube',
 			'1': 'make white side face up',
@@ -620,22 +620,22 @@
 			'4.2': 'match the side colors of the edge pieces to the centers',
 			'4.3': 'put the yellow corner pieces in places',
 			'5':   'make the yellow corner pieces in correct orientation',
-			
+
 			'100': 'the cube is solved!',
 			'failed': 'fail to solve',
-			
+
 			'wait_for_reset': 'wait for reseting',
 			'wait_for_restart': 'wait for restarting',
 			'restart-is-done': 'restart is done.  The cube is ready',
 			'reset-is-done': 'reset is done.  The cube is ready',
-			
+
 			'msg-clear': 'x',
 			'msg-clear-tip': 'clear all the messages',
-			
+
 			'steps': 'turns',
 			'stage': 'step',
 			'done': 'done'
-			
+
 		},
 		'zh': {
 			'sequence': '操作记录',
@@ -649,10 +649,10 @@
 			'pause-tip': '让每段暂停',
 			'change-face-tip': '开通修改方块面色',
 			'messages': '消息',
-			'speed': '转速', 
-			'speed-tip': '转动速度', 
-			'size': '大小', 
-			'size-tip': '魔方大小', 
+			'speed': '转速',
+			'speed-tip': '转动速度',
+			'size': '大小',
+			'size-tip': '魔方大小',
 			'save-state': '保存姿态',
 			'save-state-tip': '保存魔方姿态',
 			'load-state': '装入姿态',
@@ -672,16 +672,16 @@
 			'left-view-tip': '魔方左面',
 			'back-view-tip': '魔方背面',
 			'bottom-view-tip': '魔方底面',
-			
+
 			'Up-tip': 'U\' 回',
 			'U-tip': 'U 勾',
 			'Ep-tip': 'E\' 中层回',
 			'E-tip': 'E 中层勾',
 			'Dp-tip': 'D\' 底勾',
-			'D-tip': 'D 底回',	
+			'D-tip': 'D 底回',
 			'y-tip': 'y 整个魔方左转',
 			'yp-tip': 'yp 整个魔方右转',
-			
+
 			'Bp-tip': 'B\' 背面压下',
 			'B-tip': 'B 背面顶上',
 			'Sp-tip': 'S\' 中切面顶上',
@@ -689,27 +689,27 @@
 			'Fp-tip': 'F\' 顶',
 			'F-tip': 'F 压',
 			'z-tip': 'z 整个魔方向左翻',
-			'zp-tip': 'zp 整个魔方向右翻',	
-	
+			'zp-tip': 'zp 整个魔方向右翻',
+
 			'Lp-tip': 'L\' 左面转上',
-			'L-tip': 'L 左面转下',				
+			'L-tip': 'L 左面转下',
 			'Mp-tip': 'M\' 中竖面转上',
-			'M-tip': 'M 中竖面转下',	
+			'M-tip': 'M 中竖面转下',
 			'Rp-tip': 'R\' 下',
-			'R-tip': 'R 上',	
+			'R-tip': 'R 上',
 			'x-tip': 'x 整个魔方后翻',
-			'xp-tip': 'xp 整个魔方前翻',	
-			
+			'xp-tip': 'xp 整个魔方前翻',
+
 			'v-tip':  'v 右边 勾上回下',
 			'w-tip': 'w 右边 勾勾上回回下',
 			'vp-tip':  'vp 右边 上勾下回',
 			'wp-tip': 'wp 右边 上勾勾下回回',
 			'k-tip':  'k 右边 回下勾上',
-			
+
 			't-tip':  't 左边 勾上回下',
 			'tp-tip':  'tp 左边 上勾下回',
- 			
-			
+
+
 			// stage infor
 			'0': '0 拨乱魔方',
 			'1': '1 让白色面朝上',
@@ -723,20 +723,20 @@
 			'4.2': '4.2 让黄色棱块侧面颜色跟中心颜色一样',
 			'4.3': '4.3 把黄色角块放到位',
 			'5': '5 调整黄色角块方向',
-			
+
 			'100': '--魔方完全恢复--!',
 			'failed': '魔方恢复失败',
 
 
-			
+
 			'wait_for_reset': '悄等，正在重置',
 			'wait_for_restart': '悄等，正在准备重新开始',
 			'restart-is-done': '重新开始准备好了',
 			'reset-is-done': '重置好了',
-			
+
 			'msg-clear': '清',
 			'msg-clear-tip': '清除所有信息',
-			
+
 			'steps': '转',
 			'stage': '步',
 			'done': '完成'
@@ -747,59 +747,59 @@
 		'en': {
 			't-tip':  't, left side, right up left down',
 			'tp-tip':  'tp, left side, up right down left'
-			
+
 		},
 		'zh': {
-			
-			
+
+
 			'msg-clear': '清',
 			'msg-clear-tip': '清除所有信息',
-			
+
 			'steps': '转',
 			'stage': '步',
-			
+
 			'ms-t1': 'v： 常用',
 			'ms-t9.1': ' 如果上面中间右棱角是白色，上面左转， 然后转动右面， 如果中间棱块有白面, 白面朝右则正面逆时针转， 否则右面上转'
-			
+
 		}
 	};
-	
-	const msg = {s1: '标准魔方为 3×3×3 的立方体，共有 6 个面，每面由9个小方块组成, 共26个小方块。 每个面颜色不同（通常为白、黄、红、橙、蓝、绿）。这些小块分为 中心块（6个），固定不动，决定每个面的颜色；	棱块（12个），位于棱上，有两种颜色； 角块（8个），位于角上，有三种颜色。', 
-				 
-				
- 				 
-				 s3: '这里主要介绍的魔方恢复方法是一种初级方法，属于分层恢复法，简单易学，不是速拧法。',				 
+
+	const msg = {s1: '标准魔方为 3×3×3 的立方体，共有 6 个面，每面由9个小方块组成, 共26个小方块。 每个面颜色不同（通常为白、黄、红、橙、蓝、绿）。这些小块分为 中心块（6个），固定不动，决定每个面的颜色；	棱块（12个），位于棱上，有两种颜色； 角块（8个），位于角上，有三种颜色。',
+
+
+
+				 s3: '这里主要介绍的魔方恢复方法是一种初级方法，属于分层恢复法，简单易学，不是速拧法。',
 				 s3: '本魔方恢复法分5步： 拼白色十字，恢复中间层，恢复白色层，拼黄色十字和把黄色角块归位，把黄色角块摆正, 其中一些步又分几个小步。',
 				 s3: '第一步， 拼白色十字：  ',
 				 s4: '如果中间层右棱块不含有白色面，上转； 如果有白色面，上转或者顶，转前保证上面位置没有白色块。',
 				 ms1: 'v： 常用',
 				 ms9: ' 如果上面中间右棱角是白色，上面左转， 然后转动右面， 如果中间棱块有白面, 白面朝右则正面逆时针转， 否则右面上转'
 		 };
-				 
-				 
+
+
 
 	const defaultLang = 'zh';
 	let speakCurrentLang = 'zh-CN';
 	let currentLang = defaultLang;
 
-	
+
 
 
     let isAnimating = false, rx = -15, ry = -25, currentScale = 0.7, animSpeed = 550;
-    let moveLog = [], currentPointer = 0; stage='1'; totalSteps = 0; pauseFlag = 0;  pause_cntrl = 0; restartFlag=0; resetFlag=0; cube_busy=0; playing=0; 
+    let moveLog = [], currentPointer = 0; stage='1'; totalSteps = 0; pauseFlag = 0;  pause_cntrl = 0; restartFlag=0; resetFlag=0; cube_busy=0; playing=0;
 	let single_step_ctrl=0;
-	
+
 	let colorValues = {white: '',yellow:''};
-	
+
 	let activeSelectedColor = '#ffffff';
-	
+
 	let activeColor = null; // Stores the color from the round buttons
 	let fc_cntrl = 0;
 	let debug_cnt=0;
 	let debug_alg1_mid_ctrl=0;
-		
+
 	colorValues.white = getColorValue(colors[colorNames.white]);
-	colorValues.yellow = getColorValue(colors[colorNames.yellow]);	
+	colorValues.yellow = getColorValue(colors[colorNames.yellow]);
 
     // --- NEW FILE-BASED SAVE/LOAD FUNCTIONS ---
 
@@ -816,17 +816,17 @@
         const data = JSON.stringify({ moveLog, currentPointer }, null, 2);
         downloadFile(data, "rubiks_sequence.json");
     }
-	
+
 	 function saveSequenceToFile(fileName) {
         const data = JSON.stringify({ moveLog, currentPointer }, null, 2);
         downloadFile(data, fileName);
     }
-	
+
 
     function loadSequenceFromFile() {
         const input = document.createElement('input');
 
-		
+
         input.type = 'file';
         input.accept = '.json';
         input.onchange = e => {
@@ -856,7 +856,7 @@
 
     function loadStateFromFile() {
         const input = document.createElement('input');
-		
+
         input.type = 'file';
         input.accept = '.json';
         input.onchange = e => {
@@ -886,7 +886,7 @@
 	function loadCubeState(stateData) {
 		// 1. Loop through all cube instances in the registry (Main + Mirrors)
 		registry.forEach(cubeInstance => {
-			
+
 			// 2. Loop through each state object in your JSON array
 			stateData.forEach(item => {
 				const coords = item.id.split(',');
@@ -895,9 +895,9 @@
 				const hz = coords[2];
 
 				// 3. Find the cubie in this specific cube instance matching the coordinates
-				const cubie = cubeInstance.cubies.find(c => 
-					c.dataset.hx === hx && 
-					c.dataset.hy === hy && 
+				const cubie = cubeInstance.cubies.find(c =>
+					c.dataset.hx === hx &&
+					c.dataset.hy === hy &&
 					c.dataset.hz === hz
 				);
 
@@ -941,7 +941,7 @@
 
     // --- EXISTING LOGIC ---
 
- 
+
 	function syncFaceColorToMirrors(clickedFace, newColor) {
 		const cubie = clickedFace.parentElement;
 		const hx = cubie.dataset.hx;
@@ -951,7 +951,7 @@
 
 		// Update all matching cubies in mirror registries
 		registry.forEach(cube => {
-			const matchingCubie = cube.cubies.find(c => 
+			const matchingCubie = cube.cubies.find(c =>
 				c.dataset.hx === hx && c.dataset.hy === hy && c.dataset.hz === hz
 			);
 			if (matchingCubie) {
@@ -965,7 +965,7 @@
 	 * Changes all visible faces of a specific cubie to a new color.
 	 * @param {string} cubieKey - The key from cubiesPos (e.g., 'umr', 'fmc')
 	 * @param {string} newColor - The color value (e.g., '#fff', 'red', or colors['u'])
-	 * Example usage: 
+	 * Example usage:
 	 * change_cubie_color('fmc', '#ff00ff');
 	 */
 	function change_cubie_color(cubieKey, newColor) {
@@ -979,9 +979,9 @@
 
 		// We must update the cubie in the main cube and all 3 mirror registries
 		registry.forEach(cube => {
-			const cubie = cube.cubies.find(c => 
-				parseInt(c.dataset.hx) === hx && 
-				parseInt(c.dataset.hy) === hy && 
+			const cubie = cube.cubies.find(c =>
+				parseInt(c.dataset.hx) === hx &&
+				parseInt(c.dataset.hy) === hy &&
 				parseInt(c.dataset.hz) === hz
 			);
 
@@ -998,7 +998,7 @@
 		});
 	}
 
-	
+
 	/**
 	 * Changes a single specific face color of a specific cubie.
 	 * @param {string} cubieKey - The key from cubiesPos (e.g., 'umr')
@@ -1017,9 +1017,9 @@
 
 		// Search through all cubes in the registry (Main, Back, Left, Bottom)
 		registry.forEach(cube => {
-			const cubie = cube.cubies.find(c => 
-				parseInt(c.dataset.hx) === hx && 
-				parseInt(c.dataset.hy) === hy && 
+			const cubie = cube.cubies.find(c =>
+				parseInt(c.dataset.hx) === hx &&
+				parseInt(c.dataset.hy) === hy &&
 				parseInt(c.dataset.hz) === hz
 			);
 
@@ -1028,7 +1028,7 @@
 				const face = cubie.querySelector(`.face.${faceCode}`);
 				if (face) {
 					face.style.background = newColor;
-					
+
 					// Sync with mirror images
 					syncFaceColorToMirrors(face, newColor);
 				}
@@ -1036,7 +1036,7 @@
 		});
 	}
 
-	
+
 
     function getCubieFaceColors(targetX, targetY, targetZ) {
         const cubie = registry[0].cubies.find(c => {
@@ -1060,38 +1060,38 @@
         });
         return result;
     }
-	
 
 
 
 
-	 function getColorValue(colorName) {		
+
+	 function getColorValue(colorName) {
         const temp = document.createElement('div');
         temp.style.color = colorName; document.body.appendChild(temp);
         const colorValue = getComputedStyle(temp).color;
         document.body.removeChild(temp);
-		console.log("colorValue=", colorValue);		
+		console.log("colorValue=", colorValue);
         return colorValue;
     }
-	
-	
+
+
 	async function solve() {
 		await solve2();
-	}	
- 
+	}
+
 	async function solve0() {
-	 
+
 		if(cube_busy ==1) {
-			console.log("it is busy for stage=", stage);	
+			console.log("it is busy for stage=", stage);
 			return;
-		}			
-	
+		}
+
 		let doNotLog=false;
-		cube_busy =1;				
+		cube_busy =1;
 		while (1) {
 			add_a_marker_in_seq(stage);
 			logMessage(translations[currentLang][stage]);
-		
+
 			switch(stage) {
 				case "0":
 					await scramble(doNotLog);
@@ -1102,11 +1102,11 @@
 					await make_a_face_up(colorValues.white, doNotLog);
 					stage = '1.1';
 					break;
-				case "1.1":			
+				case "1.1":
 					await make_white_cross(doNotLog);
 					stage = '1.2';
 					break;
-				case "1.2":	
+				case "1.2":
 					await make_middle_cubie_and_center_cubie_same_color_for_white_cross(doNotLog);
 					stage = '2.1';
 					break;
@@ -1120,31 +1120,31 @@
 					stage = '3.1';
 					break;
 				case "3.1":
-					await put_corner_cubies1(doNotLog); 
+					await put_corner_cubies1(doNotLog);
 					stage = '3.2';
 					break;
-				case "3.2":	
-					await put_corner_cubies2(false); 
+				case "3.2":
+					await put_corner_cubies2(false);
 					stage = '4.1';
 					break;
 				case "4.1":
-					await make_yellow_cross(false); 
+					await make_yellow_cross(false);
 					stage = '4.2';
 					break;
-				case "4.2":	
-					await make_middle_cubie_and_center_cubie_same_color_for_yellow_cross(false); 
+				case "4.2":
+					await make_middle_cubie_and_center_cubie_same_color_for_yellow_cross(false);
 					stage = '4.3';
 					break;
 				case "4.3":
-					await make_yellow_corner_cubies_in_place(false); 
+					await make_yellow_corner_cubies_in_place(false);
 					stage = '5';
 					break;
-				case "5":	
-					await make_yellow_corner_cubies_face_down(false); 
-					
+				case "5":
+					await make_yellow_corner_cubies_face_down(false);
+
 					stage= '100';
 					add_a_marker_in_seq(stage);
-					
+
 					if(isCubeSolvedAnyOrientation()) {
 						logMessage(translations[currentLang][stage]);
 						if( debug_cnt) console.log(`it is solved`);
@@ -1153,45 +1153,45 @@
 						logMessage(translations[currentLang]["failed"]);
 						if( debug_cnt) console.log(`it is not solved`);
 					}
-								
-					updateSteps(stage) 
+
+					updateSteps(stage)
 					break;
 				default:
 					console.log("solve invalid stage number", stage);
 					pause_cntrl=1;  // to get out of the looop
 					break;
 			}
-			
+
 			if(resetFlag==1) { resetCubeOps(); break;}
 			if(restartFlag==1) {restartCubeOps(); break;}
 
 			if(stage=='100'){ stage = '1'; cube_busy=0; break; }
-			
+
 			if(pause_cntrl==1) { cube_busy=0; break; }
-			
+
 			if(totalSteps>500) {
-				console.log(`it is stuck  with ${totalSteps} steps in stage ${stage}`);	
+				console.log(`it is stuck  with ${totalSteps} steps in stage ${stage}`);
 				cube_busy=0;
 				break;
 			}
-		}		
+		}
     }
 
 
 	async function solve1() {
-		console.log(`it is solve1`);		
-		
+		console.log(`it is solve1`);
+
 		if(cube_busy ==1) {
-			console.log("it is busy for stage=", stage);	
+			console.log("it is busy for stage=", stage);
 			return;
-		}			
-	
+		}
+
 		let doNotLog=false;
-		cube_busy =1;				
+		cube_busy =1;
 		while (1) {
 			add_a_marker_in_seq(stage);
 			logMessage(translations[currentLang][stage]);
-		
+
 			switch(stage) {
 				case "0":
 					await scramble(doNotLog);
@@ -1202,11 +1202,11 @@
 					await make_a_face_up(colorValues.yellow, doNotLog);
 					stage = '1.1';
 					break;
-				case "1.1":			
+				case "1.1":
 					await make_white_cross(doNotLog);
 					stage = '1.2';
 					break;
-				case "1.2":	
+				case "1.2":
 					await make_middle_cubie_and_center_cubie_same_color_and_rotate(doNotLog);
 					stage = '3.1';
 					break;
@@ -1219,31 +1219,31 @@
 					stage = '4.1';
 					break;
 				case "3.1":
-					await alg1_put_corner_cubies1(doNotLog); 
+					await alg1_put_corner_cubies1(doNotLog);
 					stage = '3.2';
 					break;
-				case "3.2":	
-					await alg1_put_corner_cubies2(false); 
+				case "3.2":
+					await alg1_put_corner_cubies2(false);
 					stage = '2.1';
 					break;
 				case "4.1":
-					await make_yellow_cross(false); 
+					await make_yellow_cross(false);
 					stage = '4.2';
 					break;
-				case "4.2":	
-					await make_middle_cubie_and_center_cubie_same_color_for_yellow_cross(false); 
+				case "4.2":
+					await make_middle_cubie_and_center_cubie_same_color_for_yellow_cross(false);
 					stage = '4.3';
 					break;
 				case "4.3":
-					await make_yellow_corner_cubies_in_place(false); 
+					await make_yellow_corner_cubies_in_place(false);
 					stage = '5';
 					break;
-				case "5":	
-					await make_yellow_corner_cubies_face_down(false); 
-					
+				case "5":
+					await make_yellow_corner_cubies_face_down(false);
+
 					stage= '100';
 					add_a_marker_in_seq(stage);
-					
+
 					if(isCubeSolvedAnyOrientation()) {
 						logMessage(translations[currentLang][stage]);
 						if( debug_cnt) console.log(`it is solved`);
@@ -1252,45 +1252,45 @@
 						logMessage(translations[currentLang]["failed"]);
 						if( debug_cnt) console.log(`it is not solved`);
 					}
-								
-					updateSteps(stage) 
+
+					updateSteps(stage)
 					break;
 				default:
 					console.log("solve invalid stage number", stage);
 					pause_cntrl=1;  // to get out of the looop
 					break;
 			}
-			
+
 			if(resetFlag==1) { resetCubeOps(); break;}
 			if(restartFlag==1) {restartCubeOps(); break;}
 
 			if(stage=='100'){ stage = '1'; cube_busy=0; break; }
-			
+
 			if(pause_cntrl==1) { add_a_marker_in_seq(stage);  cube_busy=0;  break; }
-			
+
 			if(totalSteps>500) {
-				console.log(`it is stuck with ${totalSteps} steps in stage ${stage}`);	
+				console.log(`it is stuck with ${totalSteps} steps in stage ${stage}`);
 				cube_busy=0;
 				break;
 			}
-		}		
+		}
     }
 
 
 	async function solve2() {
-		console.log(`it is solve2`);		
-		
+		console.log(`it is solve2`);
+
 		if(cube_busy ==1) {
-			console.log("it is busy for stage=", stage);	
+			console.log("it is busy for stage=", stage);
 			return;
-		}			
-	
+		}
+
 		let doNotLog=false;
-		cube_busy =1;				
+		cube_busy =1;
 		while (1) {
 			add_a_marker_in_seq(stage);
 			logMessage(translations[currentLang][stage]);
-		
+
 			switch(stage) {
 				case "0":
 					await scramble(doNotLog);
@@ -1301,11 +1301,11 @@
 					await make_a_face_up(colorValues.yellow, doNotLog);
 					stage = '1.1';
 					break;
-				case "1.1":			
+				case "1.1":
 					await make_white_cross(doNotLog);
 					stage = '1.2';
 					break;
-				case "1.2":	
+				case "1.2":
 					await make_middle_cubie_and_center_cubie_same_color_and_rotate(doNotLog);
 					stage = '2.1';
 					break;
@@ -1318,23 +1318,23 @@
 					stage = '4.1';
 					break;
 				case "4.1":
-					await make_yellow_cross(false); 
+					await make_yellow_cross(false);
 					stage = '4.2';
 					break;
-				case "4.2":	
-					await make_middle_cubie_and_center_cubie_same_color_for_yellow_cross(false); 
+				case "4.2":
+					await make_middle_cubie_and_center_cubie_same_color_for_yellow_cross(false);
 					stage = '4.3';
 					break;
 				case "4.3":
-					await make_yellow_corner_cubies_in_place(false); 
+					await make_yellow_corner_cubies_in_place(false);
 					stage = '5';
 					break;
-				case "5":	
-					await make_yellow_corner_cubies_face_down(false); 
-					
+				case "5":
+					await make_yellow_corner_cubies_face_down(false);
+
 					stage= '100';
 					add_a_marker_in_seq(stage);
-					
+
 					if(isCubeSolvedAnyOrientation()) {
 						logMessage(translations[currentLang][stage]);
 						if( debug_cnt) console.log(`it is solved`);
@@ -1343,28 +1343,28 @@
 						logMessage(translations[currentLang]["failed"]);
 						if( debug_cnt) console.log(`it is not solved`);
 					}
-								
-					updateSteps(stage) 
+
+					updateSteps(stage)
 					break;
 				default:
 					console.log("solve invalid stage number", stage);
 					pause_cntrl=1;  // to get out of the looop
 					break;
 			}
-			
+
 			if(resetFlag==1) { resetCubeOps(); break;}
 			if(restartFlag==1) {restartCubeOps(); break;}
 
 			if(stage=='100'){ stage = '1'; cube_busy=0; break; }
-			
+
 			if(pause_cntrl==1) { add_a_marker_in_seq(stage);  cube_busy=0;  break; }
-			
+
 			if(totalSteps>500) {
-				console.log(`it is stuck with ${totalSteps} steps in stage ${stage}`);	
+				console.log(`it is stuck with ${totalSteps} steps in stage ${stage}`);
 				cube_busy=0;
 				break;
 			}
-		}		
+		}
     }
 
 
@@ -1373,92 +1373,92 @@
 
     async function test1() {
 		let doNotLog=false;
-		
+
 
 		setSpeed(900);
-	 
-		for (let x = 0; x < 20; x++){	
+
+		for (let x = 0; x < 20; x++){
 			clearLog();
-			clearMsg();			
-			
+			clearMsg();
+
 			stage ='0';
 			await solve();
-						
-			
+
+
 			if(isCubeSolvedAnyOrientation()) {
-				console.log(`it is solved with ${totalSteps} steps in ${x}`);			
-			
+				console.log(`it is solved with ${totalSteps} steps in ${x}`);
+
 				if(totalSteps>185) {
 					saveSequenceToFile(`testSeqFile_p_${totalSteps}_${x}`);
 				}
 			}
 			else {
-				console.log(`it is not solved  with ${totalSteps} steps in ${x}`);	
+				console.log(`it is not solved  with ${totalSteps} steps in ${x}`);
 				saveSequenceToFile(`testSeqFile_f_${totalSteps}_${x}`);
 				break;
 			}
-			
+
 			if(totalSteps>500) {
-				console.log(`it is stuck  with ${totalSteps} steps in ${x}`);	
+				console.log(`it is stuck  with ${totalSteps} steps in ${x}`);
 				saveSequenceToFile(`testSeqFile_s_${totalSteps}_${x}`);
 				break;
 			}
 		}
-		
+
 		setSpeed(550);
-		
+
     }
-    
+
 
 
 
     async function test2() {
 		let doNotLog=false;
-		
-		
-			
-		if(isCubeSolvedAnyOrientation()) {
-			console.log(`it is solved`);			
-		} else {
-			console.log(`it is not solved in`);	
-		}
-		
 
-			
-		//loadTestStates(stateName); 
-		
+
+
+		if(isCubeSolvedAnyOrientation()) {
+			console.log(`it is solved`);
+		} else {
+			console.log(`it is not solved in`);
+		}
+
+
+
+		//loadTestStates(stateName);
+
 		//loadTestSeqs(seqName);
-		
+
 		//hideShowElement(1);
-				
+
 		//add_a_marker_in_seq('2');
 		//await make_white_cross(doNotLog);
-		
+
 		//change_cubie_face_color('fuc', 'f', 'grey');
-		
+
 		//speak(msg.s1);
 		//document.getElementById('Messages-id').innerText = msg.s2;
 		//highlight('fmc');
 		//highlight('umr');
-		
+
 		//setTimeout(() => {
 		//	highlight();
-		//}, 2000);		
-		
+		//}, 2000);
+
 		//await demoClickAbutton('Up', "勾");
-		//await demoClickAbutton('R', "上"); 		
-		//await demoClickAbutton('U', "回"); 	
-		//await demoClickAbutton('Rp', "下"); 	
-		
+		//await demoClickAbutton('R', "上");
+		//await demoClickAbutton('U', "回");
+		//await demoClickAbutton('Rp', "下");
+
 
 		//setSpeed(800);
-		
+
 		//moveVirtualCursorToElement("solve");
-	}	
+	}
 
 
 
-	
+
 
 	function isCubeSolvedAnyOrientation() {
 		if (!registry || registry.length === 0) return false;
@@ -1487,7 +1487,7 @@
 				return Math.abs(p[face.axis] - face.val) < 10;
 			});
 
-			if (planeCubies.length !== 9) continue; 
+			if (planeCubies.length !== 9) continue;
 
 			// 3. Find which sticker class is pointing "out" for this plane
 			// We do this by checking the center cubie of this face (0 on other axes)
@@ -1511,32 +1511,32 @@
 				if (bg !== 'rgb(34, 34, 34)' && bg !== '#222' && bg !== '') {
 					referenceColor = bg;
 					// We assume the class (.u, .f, etc) tells us which side of the CUBIE it is
-					targetClass = s.className.split(' ').find(c => c.length === 1); 
+					targetClass = s.className.split(' ').find(c => c.length === 1);
 					break;
 				}
 			}
 
-			// 4. Verification: Every cubie on this physical face must have 
+			// 4. Verification: Every cubie on this physical face must have
 			// the SAME color pointing in this SAME direction.
 			for (const cubie of planeCubies) {
 				const sticker = cubie.querySelector('.' + targetClass);
 				if (!sticker || sticker.style.background !== referenceColor) {
-					return false; 
+					return false;
 				}
 			}
 		}
 
 		return true;
 	}
-	 
+
 
 
 	// Move virtual cursor to button
 	function moveVirtualCursorToElement(myButton) {
-	
+
 		const element = document.getElementById(myButton);
-		 
-	
+
+
 		// Create a virtual mouse cursor
 		const virtualCursor = document.createElement('div');
 		virtualCursor.style.position = 'fixed';
@@ -1548,24 +1548,24 @@
 		virtualCursor.style.zIndex = '9999';
 		document.body.appendChild(virtualCursor);
 
-	
+
 		// Move virtual cursor to button
 		const rect = element.getBoundingClientRect();
 		virtualCursor.style.left = (rect.left + rect.width/2 - 10) + 'px';
 		virtualCursor.style.top = (rect.top + rect.height/2 - 10) + 'px';
-		
+
 		// Trigger events on the actual button
 		element.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
 	}
 
 
 	function add_a_marker_in_seq(m) {
-		moveLog.push('mk_'+m); updateLogUI();		
+		moveLog.push('mk_'+m); updateLogUI();
 	}
-	
-	
 
-    async function make_a_face_up(color, doNotLog = true) {	
+
+
+    async function make_a_face_up(color, doNotLog = true) {
         if(check_a_Cubie_Face_Color('umc', 'u', color)==false) {
             if(check_a_Cubie_Face_Color('rmc', 'r', color)) await triggerMove('S', -1, doNotLog);
             else if(check_a_Cubie_Face_Color('lmc', 'l',color)) await triggerMove('S', 1, doNotLog);
@@ -1576,14 +1576,14 @@
     }
 
 
-    async function make_white_cross(doNotLog = true) {		
+    async function make_white_cross(doNotLog = true) {
         let cnt=0, rot=0, ms=true;
         cnt = count_white_face_up_cubie();
-			
+
         while (cnt<4){
-			for (let x = 0; x < 4; x++){	
+			for (let x = 0; x < 4; x++){
 				let fr=0,  ff=0, br=0, bb=0;
-				
+
 				if(check_a_Cubie_Face_Color('fmr', 'r', colorValues.white)) {
 					for (let y= 0; y < 4; y++){
 						if(check_a_Cubie_Face_Color('fuc', 'u', colorValues.white)){
@@ -1591,46 +1591,46 @@
 								await triggerMove('U', 1, doNotLog);
 							} else if(!check_a_Cubie_Face_Color('uml', 'u', colorValues.white)) {
 								await triggerMove('U', -1, doNotLog);
-							} else {	
+							} else {
 								await triggerMove('U', 1, doNotLog);
-							}		
+							}
 						}
 						else {
 							await triggerMove('F', -1, doNotLog);
 							fr=1;
 							cnt++;
-							if(cnt < 4) x-=1; 
+							if(cnt < 4) x-=1;
 							break;
 						}
-					}				
-				} 
+					}
+				}
 				if(cnt == 4) break;
-				
+
 				if(check_a_Cubie_Face_Color('bmr', 'r', colorValues.white)) {
 					if( debug_cnt) console.log("make_white_cross bmr r");
-				
+
 					for (let y= 0; y < 4; y++){
 						if(check_a_Cubie_Face_Color('buc', 'u', colorValues.white)){
 							if(!check_a_Cubie_Face_Color('uml', 'u', colorValues.white)) {
 								await triggerMove('U', 1, doNotLog);
 							} else if(!check_a_Cubie_Face_Color('umr', 'u', colorValues.white)) {
 								await triggerMove('U', -1, doNotLog);
-							
-							} else {	
+
+							} else {
 								await triggerMove('U', 1, doNotLog);
-							}							
+							}
 						}
 						else {
 							await triggerMove('B', 1, doNotLog);
 							br=1;
 							cnt++;
-							if(cnt < 4) x-=1; 
+							if(cnt < 4) x-=1;
 							break;
 						}
-					}				
+					}
 				}
 				if(cnt == 4) break;
-				
+
 				if(fr==0) {
 					if(check_a_Cubie_Face_Color('fmr', 'f', colorValues.white)) {
 						for (let y= 0; y < 4; y++){
@@ -1639,10 +1639,10 @@
 									await triggerMove('U', -1, doNotLog);
 									} else if(!check_a_Cubie_Face_Color('buc', 'u', colorValues.white)) {
 										await triggerMove('U', 1, doNotLog);
-									
-									} else {	
+
+									} else {
 										await triggerMove('U', 1, doNotLog);
-								}		
+								}
 							}
 							else {
 								await triggerMove('R', 1, doNotLog);
@@ -1651,20 +1651,20 @@
 								break;
 							}
 						}
-					}  
+					}
 				}
 				if(cnt == 4) break;
-				
+
 				if(br==0) {
 					 if(check_a_Cubie_Face_Color('bmr', 'b', colorValues.white)) {
 						if( debug_cnt) console.log("make_white_cross bmr b");
 						for (let y= 0; y < 4; y++){
 							if(check_a_Cubie_Face_Color('umr', 'u', colorValues.white)){
 								if(!check_a_Cubie_Face_Color('fuc', 'u', colorValues.white)) {
-									await triggerMove('U', -1, doNotLog);							
-								} else {	
+									await triggerMove('U', -1, doNotLog);
+								} else {
 									await triggerMove('U', 1, doNotLog);
-								}		
+								}
 							}
 							else {
 								await triggerMove('R', -1, doNotLog);
@@ -1673,11 +1673,11 @@
 								break;
 							}
 						}
-					}  
+					}
 				}
 				if(cnt == 4) break;
-				
-							
+
+
 				if((br==0)&&(fr==0)&&(bb==0)&&(ff==0)) {
 					if(check_a_Cubie_Face_Color('dmr', 'd', colorValues.white)|| check_a_Cubie_Face_Color('dmr', 'r', colorValues.white) ||
 						check_a_Cubie_Face_Color('fmr', 'f', colorValues.white)|| check_a_Cubie_Face_Color('fmr', 'r', colorValues.white) ||
@@ -1687,35 +1687,35 @@
 							if(check_a_Cubie_Face_Color('umr', 'u', colorValues.white)){
 								if(!check_a_Cubie_Face_Color('fuc', 'u', colorValues.white)) {
 									await triggerMove('U', -1, doNotLog);
-								} else {	
+								} else {
 									await triggerMove('U', 1, doNotLog);
-								}	
+								}
 							}
 							else {
 								await triggerMove('R', 1, doNotLog);
 								break;
 							}
-						}			
+						}
 					}
 					else break;
-				}				
+				}
 			}
-			
-			if (cnt < 4) 
+
+			if (cnt < 4)
 			{
 				for (let y= 0; y < 4; y++){
 					if(check_a_Cubie_Face_Color('umr', 'u', colorValues.white)){
 						if(!check_a_Cubie_Face_Color('fuc', 'u', colorValues.white)) {
 							await triggerMove('U', -1, doNotLog);
-						} else {	
+						} else {
 							await triggerMove('U', 1, doNotLog);
-						}	
+						}
 					}
 				}
 			}
-			
+
 			if (cnt < 4) { await handleSpecialMove('d', 1, doNotLog); }
-		}	
+		}
     }
 
 
@@ -1723,22 +1723,22 @@
         let cnt=0;
         if(check_a_Cubie_Face_Color('uml', 'u', colorValues.white)) cnt++;
         if(check_a_Cubie_Face_Color('umr', 'u', colorValues.white)) cnt++;
-        if(check_a_Cubie_Face_Color('fuc', 'u', colorValues.white)) cnt++; 
+        if(check_a_Cubie_Face_Color('fuc', 'u', colorValues.white)) cnt++;
         if(check_a_Cubie_Face_Color('buc', 'u', colorValues.white)) cnt++;
         return cnt;
     }
-	
-	
-	async function make_middle_cubie_and_center_cubie_same_color_and_rotate(doNotLog = true) {	
+
+
+	async function make_middle_cubie_and_center_cubie_same_color_and_rotate(doNotLog = true) {
         let res = 0;
-        for (let x = 0; x < 4; x++){	
+        for (let x = 0; x < 4; x++){
             if(check_1_face_color_and_another_cubie_color('buc', 'u', colorValues.white, 'b', 'bmc', 'b')) { await triggerMove('B', 1, doNotLog);  await triggerMove('B', 1, doNotLog); res++; }
             if(check_1_face_color_and_another_cubie_color('umr', 'u', colorValues.white, 'r', 'rmc', 'r')) { await triggerMove('R', 1, doNotLog);  await triggerMove('R', 1, doNotLog); res++; }
             if(check_1_face_color_and_another_cubie_color('uml', 'u', colorValues.white, 'l', 'lmc', 'l')) { await triggerMove('L', 1, doNotLog);  await triggerMove('L', 1, doNotLog); res++; }
             if(check_1_face_color_and_another_cubie_color('fuc', 'u', colorValues.white, 'f', 'fmc', 'f')) { await triggerMove('F', 1, doNotLog);  await triggerMove('F', 1, doNotLog); res++; }
-            	
+
             if(res==4) break;
-            
+
 			if( (check_1_face_color_and_another_cubie_color('fuc', 'u', colorValues.white, 'f', 'rmc', 'r')) ||  (check_1_face_color_and_another_cubie_color('umr', 'u', colorValues.white, 'r', 'bmc', 'b')) || (check_1_face_color_and_another_cubie_color('buc', 'u', colorValues.white, 'b', 'lmc', 'l')) || (check_1_face_color_and_another_cubie_color('uml', 'u', colorValues.white, 'l', 'fmc', 'f')) )  {
 					await triggerMove('U', -1, doNotLog);
 			} else if( (check_1_face_color_and_another_cubie_color('fuc', 'u', colorValues.white, 'f', 'lmc', 'l')) ||  (check_1_face_color_and_another_cubie_color('umr', 'u', colorValues.white, 'r', 'fmc', 'f')) || (check_1_face_color_and_another_cubie_color('buc', 'u', colorValues.white, 'b', 'rmc', 'r')) || (check_1_face_color_and_another_cubie_color('uml', 'u', colorValues.white, 'l', 'bmc', 'b')) )  {
@@ -1746,42 +1746,42 @@
 			}else await triggerMove('U', 1, doNotLog);
         }
     }
-	
 
 
-	
-    async function make_middle_layer10(doNotLog = true) {	
+
+
+    async function make_middle_layer10(doNotLog = true) {
         let c = cubiesPos['umr'], cnt =0;
         for (let y = 0; y < 4; y++){
-            let cFaceColors = getCubieFaceColors(c[0], c[1], c[2]);		
+            let cFaceColors = getCubieFaceColors(c[0], c[1], c[2]);
             if( (cFaceColors['u']===colorValues.yellow) || (cFaceColors['r'] === colorValues.yellow)) {
                 await triggerMove('U', 1, doNotLog);
-            } else { await put_a_cubie_into_middle_layer(doNotLog); cnt++; y=-1; }				
+            } else { await put_a_cubie_into_middle_layer(doNotLog); cnt++; y=-1; }
         }
     }
-	
-	async function make_middle_layer1(doNotLog = true) {	
+
+	async function make_middle_layer1(doNotLog = true) {
         let cnt =0;
         for (let y = 0; y < 4; y++){
 			if((!check_a_Cubie_Face_Color('umr', 'u', colorValues.yellow))&&(check_2_cubies_colors('umr', 'r', 'rmc', 'r'))) {
-				await put_a_cubie_into_middle_layer(doNotLog); cnt++; y=-1; 
+				await put_a_cubie_into_middle_layer(doNotLog); cnt++; y=-1;
 			} else if((!check_a_Cubie_Face_Color('buc', 'u', colorValues.yellow))&&(check_2_cubies_colors('buc', 'b', 'bmc', 'b'))) {
 				await handleSpecialMove('y', 1, doNotLog);
-				await put_a_cubie_into_middle_layer(doNotLog); cnt++; y=-1; 
+				await put_a_cubie_into_middle_layer(doNotLog); cnt++; y=-1;
 			} else if((!check_a_Cubie_Face_Color('fuc', 'u', colorValues.yellow))&&(check_2_cubies_colors('fuc', 'f', 'fmc', 'f'))) {
 				await handleSpecialMove('y', -1, doNotLog);
-				await put_a_cubie_into_middle_layer(doNotLog); cnt++; y=-1; 
+				await put_a_cubie_into_middle_layer(doNotLog); cnt++; y=-1;
 			} else if((!check_a_Cubie_Face_Color('uml', 'u', colorValues.yellow))&&(check_2_cubies_colors('uml', 'l', 'lmc', 'l'))) {
-				await put_a_cubie_into_middle_layer_left(doNotLog); cnt++; y=-1; 
-			} else { 
+				await put_a_cubie_into_middle_layer_left(doNotLog); cnt++; y=-1;
+			} else {
 				let q=0;
 				if(check_a_Cubie_Face_Color('umr', 'u', colorValues.yellow)||check_a_Cubie_Face_Color('umr', 'r', colorValues.yellow)) q++;
 				if(check_a_Cubie_Face_Color('buc', 'u', colorValues.yellow)||check_a_Cubie_Face_Color('buc', 'b', colorValues.yellow)) q++;
 				if(check_a_Cubie_Face_Color('fuc', 'u', colorValues.yellow)||check_a_Cubie_Face_Color('fuc', 'f', colorValues.yellow)) q++;
 				if(check_a_Cubie_Face_Color('uml', 'u', colorValues.yellow)||check_a_Cubie_Face_Color('uml', 'l', colorValues.yellow)) q++;
-				
+
 				if(q==4) break;
-				
+
 				if((!check_a_Cubie_Face_Color('umr', 'u', colorValues.yellow))&&(check_2_cubies_colors('umr', 'r', 'bmc', 'b'))) {
 					await handleSpecialMove('d', -1, doNotLog);
 				} else if((!check_a_Cubie_Face_Color('umr', 'u', colorValues.yellow))&&(check_2_cubies_colors('umr', 'r', 'fmc', 'f'))) {
@@ -1798,38 +1798,38 @@
 					await handleSpecialMove('d', -1, doNotLog);
 				} else if((!check_a_Cubie_Face_Color('uml', 'u', colorValues.yellow))&&(check_2_cubies_colors('uml', 'l', 'bmc', 'b'))) {
 					await handleSpecialMove('d', 1, doNotLog);
-				} else { 
+				} else {
 					await triggerMove('U', 1, doNotLog);
 				}
-			}  		
+			}
 			if( debug_cnt) console.log("make_middle_layer1 y=", y);
         }
-		
+
 		return cnt;
     }
-	
-	
-	
 
-    async function make_middle_layer2(doNotLog = true) {	
-        let cnt = check_middle_cubies(); 
+
+
+
+    async function make_middle_layer2(doNotLog = true) {
+        let cnt = check_middle_cubies();
         if(cnt==4) return;
-		
+
 		if( debug_cnt) console.log("make_middle_layer2 cnt=", cnt);
-		
+
         for (let y = 0; y < 4; y++){
             if( !(check_2_cubies_colors('fmr', 'r', 'rmc', 'r') &&  check_2_cubies_colors('fmr', 'f', 'fmc', 'f'))) {
                 await handleSpecialMove('v', 1, doNotLog);
 				cnt+= await  make_middle_layer1(doNotLog);
             } else if( !( check_2_cubies_colors('fml', 'l', 'lmc', 'l') &&  check_2_cubies_colors('fml', 'f', 'fmc', 'f'))) {
                 await handleSpecialMove('t', 1, doNotLog);
-				cnt+= await  make_middle_layer1(doNotLog);			
+				cnt+= await  make_middle_layer1(doNotLog);
 			} else if( !( check_2_cubies_colors('bmr', 'r', 'rmc', 'r') &&  check_2_cubies_colors('bmr', 'b', 'bmc', 'b'))) {
                 await handleSpecialMove('k', 1, doNotLog);
-				cnt+= await make_middle_layer1(doNotLog);			
+				cnt+= await make_middle_layer1(doNotLog);
 			} else if ( !( check_2_cubies_colors('bml', 'l', 'lmc', 'l') &&  check_2_cubies_colors('bml', 'b', 'bmc', 'b'))) {
                 await handleSpecialMove('c', 1, doNotLog);
-				cnt+= await  make_middle_layer1(doNotLog);			
+				cnt+= await  make_middle_layer1(doNotLog);
 			}
 			if(cnt==4) break;
 		}
@@ -1837,34 +1837,34 @@
 		if( debug_cnt) console.log("make_middle_layer2 --cnt=", cnt);
 
     }
-	
-	async function make_middle_layer2_Old(doNotLog = true) {	
-        let c = cubiesPos['umr'], cnt = check_middle_cubies(); 
+
+	async function make_middle_layer2_Old(doNotLog = true) {
+        let c = cubiesPos['umr'], cnt = check_middle_cubies();
         if(cnt==4) return;
         for (let y = 0; y < 4; y++){
             if( check_2_cubies_colors('fmr', 'r', 'rmc', 'r') &&  check_2_cubies_colors('fmr', 'f', 'fmc', 'f')) {
                 await triggerMove('E', 1, doNotLog); await triggerMove('D', -1, doNotLog);
             } else {
-                await handleSpecialMove('v', 1, doNotLog);      
+                await handleSpecialMove('v', 1, doNotLog);
 				v=1;
 				for (let x = 0; x < 4; x++){
 					await triggerMove('U', v, doNotLog);
-					let cFaceColors = getCubieFaceColors(c[0], c[1], c[2]);		
+					let cFaceColors = getCubieFaceColors(c[0], c[1], c[2]);
 					if((cFaceColors['u'] !== colorValues.yellow) &&  (cFaceColors['r'] !== colorValues.yellow)) {
-							v = await put_a_cubie_into_middle_layer(doNotLog); 
-							cnt++; 
+							v = await put_a_cubie_into_middle_layer(doNotLog);
+							cnt++;
 							y=-1;
 						if(cnt==4) break;
 					}
-						else break;	
+						else break;
 				}
 				if(cnt==4) break;
             }
         }
     }
-	
-	
-	
+
+
+
 
     function check_middle_cubies(){
         let cnt =0;
@@ -1872,25 +1872,25 @@
         if( check_2_cubies_colors('fml', 'l', 'lmc', 'l') &&  check_2_cubies_colors('fml', 'f', 'fmc', 'f')) cnt++;
         if( check_2_cubies_colors('bmr', 'r', 'rmc', 'r') &&  check_2_cubies_colors('bmr', 'b', 'bmc', 'b')) cnt++;
         if( check_2_cubies_colors('bml', 'l', 'lmc', 'l') &&  check_2_cubies_colors('bml', 'b', 'bmc', 'b')) cnt++;
-		
+
 		if( debug_cnt) console.log("check_middle_cubies cnt=", cnt);
-		
+
         return cnt;
     }
 
     async function put_a_cubie_into_middle_layer(doNotLog = true) {
 		let v=0;
-        for (let x = 0; x < 4; x++){	
+        for (let x = 0; x < 4; x++){
             if( check_2_cubies_colors('umr', 'r', 'rmc', 'r')){
-                if( check_2_cubies_colors('umr', 'u', 'fmc', 'f')) { 
+                if( check_2_cubies_colors('umr', 'u', 'fmc', 'f')) {
 					await handleSpecialMove('v', 1, doNotLog); v=1;
 				}
                 else {
 					await handleSpecialMove('k', 1, doNotLog); v=-1;
 				}
                 break;
-            } else { 
-				await handleSpecialMove('d', -1, doNotLog); 
+            } else {
+				await handleSpecialMove('d', -1, doNotLog);
 			}
         }
 		return v;
@@ -1898,35 +1898,35 @@
 
     async function put_a_cubie_into_middle_layer_left(doNotLog = true) {
 		let v=0;
-        for (let x = 0; x < 4; x++){	
+        for (let x = 0; x < 4; x++){
             if( check_2_cubies_colors('uml', 'l', 'lmc', 'l')){
-                if( check_2_cubies_colors('uml', 'u', 'fmc', 'f')) { 
+                if( check_2_cubies_colors('uml', 'u', 'fmc', 'f')) {
 					await handleSpecialMove('t', 1, doNotLog); v=1;
 				}
                 else {
 					await handleSpecialMove('c', 1, doNotLog); v=-1;
 				}
                 break;
-            } else { 
-				await handleSpecialMove('d', -1, doNotLog); 				
+            } else {
+				await handleSpecialMove('d', -1, doNotLog);
 			}
         }
 		return v;
     }
 
 
-    
-		
+
+
 
     function check_a_Cubie_Face_Color(cubie, face, expected_color) {
         let cc = cubiesPos[cubie];
         let ccFaceColors = getCubieFaceColors(cc[0], cc[1], cc[2]);
         return (ccFaceColors[face] === expected_color);
     }
-	
-	
 
-    function check_2_cubies_colors(cubie1, face1, cubie2, face2) {	
+
+
+    function check_2_cubies_colors(cubie1, face1, cubie2, face2) {
         let c1 = cubiesPos[cubie1], c2 = cubiesPos[cubie2];
         return getCubieFaceColors(c1[0], c1[1], c1[2])[face1] === getCubieFaceColors(c2[0], c2[1], c2[2])[face2];
     }
@@ -1937,115 +1937,115 @@
 			let c1FaceColors = getCubieFaceColors(c1[0], c1[1], c1[2]);
 			let c2FaceColors = getCubieFaceColors(c2[0], c2[1], c2[2]);
 			let c3FaceColors = getCubieFaceColors(c3[0], c3[1], c3[2]);
-			
+
 			if(c1FaceColors[f1] !== expectedColor) return false;
 			else if (c1FaceColors[f2] !== c2FaceColors[f2]) return false;
 			else if (c1FaceColors[f3] !== c3FaceColors[f3]) return false;
-			else return true;	
+			else return true;
 	}
 
 
 	function check_1_face_color_and_another_cubie_color(cubie1, f0, expectedColor, f1, cubie2, f2){
  			let c1 = cubiesPos[cubie1], c2 = cubiesPos[cubie2];
-			
+
 			let c1FaceColors = getCubieFaceColors(c1[0], c1[1], c1[2]);
 			let c2FaceColors = getCubieFaceColors(c2[0], c2[1], c2[2]);
-			
+
 			if(c1FaceColors[f0] !== expectedColor) return false;
 			else if (c1FaceColors[f1] !== c2FaceColors[f2]) return false;
-			else return true;	
+			else return true;
 	}
-	
+
 	function check_if_a_cubie_at_the_right_corner(c0FaceColors, f0, f1, cubie2, f2, cubie3, f3){
  			let c2 = cubiesPos[cubie2], c3 = cubiesPos[cubie3];
 			let c2FaceColors = getCubieFaceColors(c2[0], c2[1], c2[2]);
 			let c3FaceColors = getCubieFaceColors(c3[0], c3[1], c3[2]);
-						
+
 			if(((c0FaceColors[f0] === c2FaceColors[f2]) && (c0FaceColors[f1] === c3FaceColors[f3])) || ( (c0FaceColors[f1] === c2FaceColors[f2]) && (c0FaceColors[f0] === c3FaceColors[f3]) ))  return true;
-			else return false;	
+			else return false;
 	}
-	
+
 
 	function cubie_has_a_color(cubie, color) {
 		let cc = cubiesPos[cubie];
         let ccFaceColors = getCubieFaceColors(cc[0], cc[1], cc[2]);
-			
+
 		if (Object.values(ccFaceColors).includes(color)) {
 		 return true;
 		} else {
 		  return false;
 		}
 	}
-	
-	
-	
+
+
+
 	function check_if_a_cubie_is_at_the_right_corner(cubie, cubie2, f2, cubie3, f3){
 		let c = cubiesPos[cubie];
 		let c0FaceColors=getCubieFaceColors(c[0], c[1], c[2]);
-	
+
  		let c2 = cubiesPos[cubie2], c3 = cubiesPos[cubie3];
 		let c2FaceColors = getCubieFaceColors(c2[0], c2[1], c2[2]);
 		let c3FaceColors = getCubieFaceColors(c3[0], c3[1], c3[2]);
-				
+
 		if(cubie_has_a_color(cubie, c2FaceColors[f2])&&cubie_has_a_color(cubie, c3FaceColors[f3])) return true;
-		else return false;	
+		else return false;
 	}
-	
-	
-	
+
+
+
 	function find_its_middle_cubie(cubie, f1, f2){
 		let c = cubiesPos[cubie];
 		let cFaceColors=getCubieFaceColors(c[0], c[1], c[2]);
-		
+
 		let theCb="";
-		
+
 		middle_cubies=['fuc','umr', 'buc','uml', 'fml', 'fmr', 'bml', 'bmr'];
-		for(let i=0; i<8; i++) {		
+		for(let i=0; i<8; i++) {
 			let cb=middle_cubies[i];
-			if (cubie_has_a_color(cb, cFaceColors[f1])&&cubie_has_a_color(cb, cFaceColors[f2])) 
+			if (cubie_has_a_color(cb, cFaceColors[f1])&&cubie_has_a_color(cb, cFaceColors[f2]))
 			{
-				theCb=cb; 
+				theCb=cb;
 				break;
 			}
 		}
 		return theCb;
 	}
-	
-	
-	
-		
-	
+
+
+
+
+
 	function check_white_corner_cubies(){
         let cnt =0;
         if(check_if_a_corner_cubie_is_done('fdr', 'd', colorValues.white, 'rmc', 'r', 'fmc', 'f')) cnt++;
 		if(check_if_a_corner_cubie_is_done('fdl', 'd', colorValues.white, 'lmc', 'l', 'fmc', 'f')) cnt++;
 		if(check_if_a_corner_cubie_is_done('bdr', 'd', colorValues.white, 'rmc', 'r', 'bmc', 'b')) cnt++;
 		if(check_if_a_corner_cubie_is_done('bdl', 'd', colorValues.white, 'lmc', 'l', 'bmc', 'b')) cnt++;
-		
+
 		if( debug_cnt) console.log("check_white_corner_cubies cnt=", cnt);
-		
+
         return cnt;
     }
-	
-	
-	
-	
+
+
+
+
 
 	async function put_corner_cubies1(doNotLog = true) {
 		let cnt = 0;
-		
+
 		for (let x = 0; x < 4; x++){
-			
+
 			if(await put_a_corner_cubie_in_place(doNotLog)){
 					cnt++;
 					x=-1;
-					if(cnt == 4) break;		
+					if(cnt == 4) break;
 			} else if(await put_a_corner_cubie_in_place_left(doNotLog)){
 					cnt++;
 					x=-1;
-					if(cnt == 4) break;		
+					if(cnt == 4) break;
 			} else {
-				
+
 				if(check_a_Cubie_Face_Color('bur','b', colorValues.white)||check_a_Cubie_Face_Color('bur','u', colorValues.white)||check_a_Cubie_Face_Color('bur','r', colorValues.white)){
 					await triggerMove('U', 1, doNotLog);
 				} else  if(check_a_Cubie_Face_Color('bul','b', colorValues.white)||check_a_Cubie_Face_Color('bul','u', colorValues.white)||check_a_Cubie_Face_Color('bul','l', colorValues.white)){
@@ -2060,20 +2060,20 @@
 			}
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 	async function put_corner_cubies2(doNotLog = true) {
 		let cnt = check_white_corner_cubies();
-		if(cnt == 4) return;		
-		
+		if(cnt == 4) return;
+
 		if( debug_cnt) console.log("put_corner_cubies2 1 cnt=", cnt);
-				
+
 		for (let x = 0; x < 4; x++){
 			if(check_if_a_corner_cubie_is_done('fdr', 'd', colorValues.white, 'fmc', 'f', 'rmc', 'r')){
 				if( debug_cnt) console.log("put_corner_cubies2 2 cnt=", cnt);
-				
+
 				if(!check_if_a_corner_cubie_is_done('fdl', 'd', colorValues.white, 'fmc', 'f', 'lmc', 'l')){
 					await handleSpecialMove('d', 1, doNotLog);
 				} else if(!check_if_a_corner_cubie_is_done('bdr', 'd', colorValues.white, 'bmc', 'b', 'rmc', 'r')){
@@ -2087,34 +2087,34 @@
 				await triggerMove('U', 1, doNotLog);
 				await handleSpecialMove('v', 1, doNotLog);
 				await triggerMove('U', -1, doNotLog);
-				
+
 				for (let y = 0; y < 4; y++){
 					if(await put_a_corner_cubie_in_place(doNotLog)){
 						cnt++;
-						if(cnt == 4) break;		
+						if(cnt == 4) break;
 						x=-1;
 					}
 					else
 						break;
 				}
 				if( debug_cnt) console.log("put_corner_cubies2 3 cnt=", cnt);
-				if(cnt == 4) break;						
+				if(cnt == 4) break;
 			}
 		}
 	}
 
 
 	async function put_a_corner_cubie_in_place(doNotLog = true) {
-			
+
 			let cnt =0;
 			let c = cubiesPos['fur'];
 			let cFaceColors=getCubieFaceColors(c[0], c[1], c[2]);
 
 			for (let y = 0; y < 4; y++){
 				if( cFaceColors['u'] === colorValues.white) {
-					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'f', 'r', 'fmc', 'f', 'rmc', 'r')){ 
+					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'f', 'r', 'fmc', 'f', 'rmc', 'r')){
 						if( debug_cnt) console.log("put_a_corner_cubie_in_place u");
-						await handleSpecialMove('v', 1, doNotLog); await handleSpecialMove('v', 1, doNotLog); await handleSpecialMove('v', 1, doNotLog); 
+						await handleSpecialMove('v', 1, doNotLog); await handleSpecialMove('v', 1, doNotLog); await handleSpecialMove('v', 1, doNotLog);
 						cnt++;
 						break;
 					}
@@ -2127,14 +2127,14 @@
 						}
 					}
 				} else if( cFaceColors['r'] === colorValues.white) {
-					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'f', 'u', 'fmc', 'f', 'rmc', 'r')){ 
+					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'f', 'u', 'fmc', 'f', 'rmc', 'r')){
 						if( debug_cnt) console.log("put_a_corner_cubie_in_place r");
-						await triggerMove('U', 1, doNotLog); await handleSpecialMove('v', -1, doNotLog); await triggerMove('U', -1, doNotLog); await handleSpecialMove('v', -1, doNotLog); 
-						
+						await triggerMove('U', 1, doNotLog); await handleSpecialMove('v', -1, doNotLog); await triggerMove('U', -1, doNotLog); await handleSpecialMove('v', -1, doNotLog);
+
 						if(check_a_Cubie_Face_Color('bul','b', colorValues.white)||check_a_Cubie_Face_Color('bul','u', colorValues.white)||check_a_Cubie_Face_Color('bul','l', colorValues.white)){
 							await triggerMove('U', 1, doNotLog); await triggerMove('U', 1, doNotLog);
 						}
-						
+
 						cnt++;
 						break;
 					}
@@ -2151,9 +2151,9 @@
 						}
 					}
 				} else if( cFaceColors['f'] === colorValues.white) {
-					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'r', 'u', 'fmc', 'f', 'lmc', 'l')){ 
+					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'r', 'u', 'fmc', 'f', 'lmc', 'l')){
 						if( debug_cnt) console.log("put_a_corner_cubie_in_place f");
-						await handleSpecialMove('t', -1, doNotLog); await triggerMove('U', 1, doNotLog); await handleSpecialMove('t', -1,  doNotLog);  
+						await handleSpecialMove('t', -1, doNotLog); await triggerMove('U', 1, doNotLog); await handleSpecialMove('t', -1,  doNotLog);
 						if(check_a_Cubie_Face_Color('bur','b', colorValues.white)||check_a_Cubie_Face_Color('bur','u', colorValues.white)||check_a_Cubie_Face_Color('bur','r', colorValues.white)){
 							await triggerMove('U', 1, doNotLog);
 						}
@@ -2177,22 +2177,22 @@
 				else
 					break;
 			}
-			
+
 			return cnt;
 	}
 
 
 	async function put_a_corner_cubie_in_place_left(doNotLog = true) {
-			
+
 			let cnt =0;
 			let c = cubiesPos['ful'];
 			let cFaceColors=getCubieFaceColors(c[0], c[1], c[2]);
 
 			for (let y = 0; y < 4; y++){
 				if( cFaceColors['u'] === colorValues.white) {
-					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'f', 'l', 'fmc', 'f', 'lmc', 'l')){ 
+					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'f', 'l', 'fmc', 'f', 'lmc', 'l')){
 						if( debug_cnt) console.log("put_a_corner_cubie_in_place_left u");
-						await handleSpecialMove('t', 1, doNotLog); await handleSpecialMove('t', 1, doNotLog); await handleSpecialMove('t', 1, doNotLog); 
+						await handleSpecialMove('t', 1, doNotLog); await handleSpecialMove('t', 1, doNotLog); await handleSpecialMove('t', 1, doNotLog);
 						cnt++;
 						break;
 					}
@@ -2204,11 +2204,11 @@
 						}
 					}
 				} else if( cFaceColors['l'] === colorValues.white) {
-					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'f', 'u', 'fmc', 'f', 'lmc', 'l')){ 
+					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'f', 'u', 'fmc', 'f', 'lmc', 'l')){
 						if( debug_cnt) console.log("put_a_corner_cubie_in_place_left l");
-						await triggerMove('U', -1, doNotLog); await handleSpecialMove('t', -1, doNotLog); await triggerMove('U', 1, doNotLog); await handleSpecialMove('t', -1, doNotLog); 
+						await triggerMove('U', -1, doNotLog); await handleSpecialMove('t', -1, doNotLog); await triggerMove('U', 1, doNotLog); await handleSpecialMove('t', -1, doNotLog);
 						if(check_a_Cubie_Face_Color('bur','b', colorValues.white)||check_a_Cubie_Face_Color('bur','u', colorValues.white)||check_a_Cubie_Face_Color('bur','r', colorValues.white)){
-							await triggerMove('U', 1, doNotLog); 
+							await triggerMove('U', 1, doNotLog);
 							await triggerMove('U', 1, doNotLog);
 						}
 						cnt++;
@@ -2225,10 +2225,10 @@
 						}
 					}
 				} else if( cFaceColors['f'] === colorValues.white) {
-					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'l', 'u', 'fmc', 'f', 'rmc', 'r')){ 
+					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'l', 'u', 'fmc', 'f', 'rmc', 'r')){
 						if( debug_cnt) console.log("put_a_corner_cubie_in_place_left f");
-						await handleSpecialMove('v', -1, doNotLog); await triggerMove('U', -1, doNotLog); await handleSpecialMove('v', -1,  doNotLog);  
-						
+						await handleSpecialMove('v', -1, doNotLog); await triggerMove('U', -1, doNotLog); await handleSpecialMove('v', -1,  doNotLog);
+
 						if(check_a_Cubie_Face_Color('bul','b', colorValues.white)||check_a_Cubie_Face_Color('bul','u', colorValues.white)||check_a_Cubie_Face_Color('bul','l', colorValues.white)){
 							await triggerMove('U', 1, doNotLog);
 							await triggerMove('U', 1, doNotLog);
@@ -2253,42 +2253,42 @@
 				else
 					break;
 			}
-			
+
 			return cnt;
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 
 	async function alg1_put_a_corner_cubie_in_place(doNotLog = true) {
-			
+
 			let cnt =0;
 			let c = cubiesPos['fur'];
 
 			for (let y = 0; y < 4; y++){
 				let cFaceColors=getCubieFaceColors(c[0], c[1], c[2]);
 				if( cFaceColors['u'] === colorValues.white) {
-					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'f', 'r', 'fmc', 'f', 'rmc', 'r')){ 
-						await triggerMove('R', 1, doNotLog); 
-						await triggerMove('U', -1, doNotLog);  
-						await triggerMove('R', -1, doNotLog); 
-						await triggerMove('U', 1, doNotLog);  
-						await triggerMove('U', 1, doNotLog);  
+					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'f', 'r', 'fmc', 'f', 'rmc', 'r')){
+						await triggerMove('R', 1, doNotLog);
+						await triggerMove('U', -1, doNotLog);
+						await triggerMove('R', -1, doNotLog);
+						await triggerMove('U', 1, doNotLog);
+						await triggerMove('U', 1, doNotLog);
 						await handleSpecialMove('v', -1, doNotLog);
-						
+
 						if(cubie_has_a_color('bur', colorValues.white)) {
-							await triggerMove('U', 1, doNotLog);  					
+							await triggerMove('U', 1, doNotLog);
 						}
-						
+
 						cnt++;
 						y=-1;
 						//break;
 					}
 					else {
 						if( debug_cnt) console.log("put_a_corner_cubie_in_place_left u1");
-						
+
 						if(check_2_cubies_colors('fur', 'r', 'lmc', 'l')){
 							await handleSpecialMove('d', 1, doNotLog);
 						} else if(check_2_cubies_colors('fur', 'r', 'bmc', 'b')){
@@ -2299,7 +2299,7 @@
 						}
 					}
 				} else if( cFaceColors['r'] === colorValues.white) {
-					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'f', 'u', 'fmc', 'f', 'rmc', 'r')){ 
+					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'f', 'u', 'fmc', 'f', 'rmc', 'r')){
 						if( debug_cnt) console.log("put_a_corner_cubie_in_place r");
 						await handleSpecialMove('v', -1, doNotLog);
 						cnt++;
@@ -2314,12 +2314,12 @@
 						} else if (check_2_cubies_colors('fur', 'f', 'rmc', 'r')) {
 							await handleSpecialMove('d', -1, doNotLog);
 						} else if (check_2_cubies_colors('fur', 'f', 'bmc', 'b')) {
-							await handleSpecialMove('d', -1, doNotLog);	
+							await handleSpecialMove('d', -1, doNotLog);
 							await handleSpecialMove('d', -1, doNotLog);
 						}
 					}
 				} else if( cFaceColors['f'] === colorValues.white) {
-					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'r', 'u', 'fmc', 'f', 'rmc', 'r')){ 
+					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'r', 'u', 'fmc', 'f', 'rmc', 'r')){
 						if( debug_cnt) console.log("put_a_corner_cubie_in_place f");
 						await handleSpecialMove('v', 1, doNotLog);
 						cnt++;
@@ -2343,25 +2343,25 @@
 				else
 					break;
 			}
-			
+
 			return cnt;
 	}
-	
-	
+
+
 	async function alg1_put_a_corner_cubie_in_place_left(doNotLog = true) {
-			
+
 			let cnt =0;
 			let c = cubiesPos['ful'];
 
 			for (let y = 0; y < 4; y++){
 				let cFaceColors=getCubieFaceColors(c[0], c[1], c[2]);
 				if( cFaceColors['u'] === colorValues.white) {
-					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'f', 'l', 'fmc', 'f', 'lmc', 'l')){ 
-						await triggerMove('L', -1, doNotLog); 
-						await triggerMove('U', 1, doNotLog);  
-						await triggerMove('L', 1, doNotLog); 
-						await triggerMove('U', -1, doNotLog);  
-						await triggerMove('U', -1, doNotLog);  
+					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'f', 'l', 'fmc', 'f', 'lmc', 'l')){
+						await triggerMove('L', -1, doNotLog);
+						await triggerMove('U', 1, doNotLog);
+						await triggerMove('L', 1, doNotLog);
+						await triggerMove('U', -1, doNotLog);
+						await triggerMove('U', -1, doNotLog);
 						await handleSpecialMove('t', -1, doNotLog);
 						cnt++;
 						y=-1;
@@ -2374,12 +2374,12 @@
 						} else if (check_2_cubies_colors('ful', 'l', 'bmc', 'b')) {
 							await handleSpecialMove('d', 1, doNotLog);
 							await handleSpecialMove('d', 1, doNotLog);
-						} 
+						}
 					}
 				} else if( cFaceColors['l'] === colorValues.white) {
-					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'f', 'u', 'fmc', 'f', 'lmc', 'l')){ 
+					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'f', 'u', 'fmc', 'f', 'lmc', 'l')){
 						if( debug_cnt) console.log("put_a_corner_cubie_in_place_left l");
-						await handleSpecialMove('t', -1, doNotLog); 
+						await handleSpecialMove('t', -1, doNotLog);
 						cnt++;
 						y=-1;
 						//break;
@@ -2395,9 +2395,9 @@
 						}
 					}
 				} else if( cFaceColors['f'] === colorValues.white) {
-					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'l', 'u', 'fmc', 'f', 'lmc', 'l')){ 
+					if(check_if_a_cubie_at_the_right_corner(cFaceColors, 'l', 'u', 'fmc', 'f', 'lmc', 'l')){
 						if( debug_cnt) console.log("put_a_corner_cubie_in_place_left f");
-						await handleSpecialMove('t', 1, doNotLog);  
+						await handleSpecialMove('t', 1, doNotLog);
 						cnt++;
 						y=-1;
 						//break;
@@ -2417,25 +2417,25 @@
 				else
 					break;
 			}
-			
+
 			return cnt;
 	}
-	
-	
+
+
 
 	async function alg1_put_corner_cubies1(doNotLog = true) {
 		let cnt = 0;
-		
-		for (let x = 0; x < 4; x++){			
+
+		for (let x = 0; x < 4; x++){
 			if(await alg1_put_a_corner_cubie_in_place(doNotLog)){
 					cnt++;
 					x=-1;
-					if(cnt == 4) break;		
+					if(cnt == 4) break;
 			} else if(await alg1_put_a_corner_cubie_in_place_left(doNotLog)){
 					cnt++;
 					x=-1;
-					if(cnt == 4) break;		
-			} else {				
+					if(cnt == 4) break;
+			} else {
 				if( cubie_has_a_color('bur', colorValues.white)&&check_if_a_cubie_is_at_the_right_corner('bur', 'fmc', 'f', 'rmc', 'r') ){
 					await triggerMove('U', 1, doNotLog);
 				} else if(cubie_has_a_color('bul', colorValues.white)&&check_if_a_cubie_is_at_the_right_corner('bul', 'fmc', 'f', 'lmc', 'l') ){
@@ -2449,25 +2449,25 @@
 				}
 			}
 		}
-		
+
 		return cnt;
 	}
 
 
-	
-	
-	
-	
+
+
+
+
 	async function alg1_put_corner_cubies2(doNotLog = true) {
 		let cnt = check_white_corner_cubies();
-		if(cnt == 4) return;		
-		
+		if(cnt == 4) return;
+
 		if( debug_cnt) console.log("put_corner_cubies2 1 cnt=", cnt);
-				
+
 		for (let x = 0; x < 4; x++){
 			if(check_if_a_corner_cubie_is_done('fdr', 'd', colorValues.white, 'fmc', 'f', 'rmc', 'r')){
 				if( debug_cnt) console.log("put_corner_cubies2 2 cnt=", cnt);
-				
+
 				if(!check_if_a_corner_cubie_is_done('fdl', 'd', colorValues.white, 'fmc', 'f', 'lmc', 'l')){
 					await handleSpecialMove('d', 1, doNotLog);
 				} else if(!check_if_a_corner_cubie_is_done('bdr', 'd', colorValues.white, 'bmc', 'b', 'rmc', 'r')){
@@ -2475,7 +2475,7 @@
 				} else if(!check_if_a_corner_cubie_is_done('bdl', 'd', colorValues.white, 'bmc', 'b', 'lmc', 'l')){
 					await handleSpecialMove('d', -1, doNotLog);
 					await handleSpecialMove('d', -1, doNotLog);
-				} else { 
+				} else {
 					break;
 				}
 			} else {
@@ -2483,7 +2483,7 @@
 				if(await alg1_put_a_corner_cubie_in_place(doNotLog)){
 					cnt++;
 					if( debug_cnt) console.log("alg1_put_corner_cubies2 cnt=", cnt);
-					if(cnt == 4) break;		
+					if(cnt == 4) break;
 					x=-1;
 				}
 				else
@@ -2491,39 +2491,39 @@
 			}
 
 			if( debug_cnt) console.log("put_corner_cubies2 3 cnt=", cnt);
-			if(cnt == 4) break;						
+			if(cnt == 4) break;
 		}
 	}
-	
-	
-	
-	async function alg1_make_middle_layer1(doNotLog = true) {	
+
+
+
+	async function alg1_make_middle_layer1(doNotLog = true) {
         let cnt =0;
         for (let y = 0; y < 8; y++){
 			if((!check_a_Cubie_Face_Color('fuc', 'u', colorValues.yellow))&&(check_2_cubies_colors('fuc', 'f', 'fmc', 'f'))) {
 				if(debug_alg1_mid_ctrl) console.log("make_middle_layer1 11=");
-				await alg1_put_a_cubie_into_middle_layer(doNotLog); cnt++; y=-1; 
+				await alg1_put_a_cubie_into_middle_layer(doNotLog); cnt++; y=-1;
 			} else if((!check_a_Cubie_Face_Color('umr', 'u', colorValues.yellow))&&(check_2_cubies_colors('umr', 'r', 'rmc', 'r'))) {
 				if(debug_alg1_mid_ctrl) console.log("make_middle_layer1 12=");
 				await handleSpecialMove('y', 1, doNotLog);
-				await alg1_put_a_cubie_into_middle_layer(doNotLog); cnt++; y=-1; 
+				await alg1_put_a_cubie_into_middle_layer(doNotLog); cnt++; y=-1;
 			} else if((!check_a_Cubie_Face_Color('buc', 'u', colorValues.yellow))&&(check_2_cubies_colors('buc', 'b', 'bmc', 'b'))) {
 				if(debug_alg1_mid_ctrl) console.log("make_middle_layer1 13=");
 				await handleSpecialMove('y', 1, doNotLog);
 				await handleSpecialMove('y', 1, doNotLog);
-				await alg1_put_a_cubie_into_middle_layer(doNotLog); cnt++; y=-1; 
+				await alg1_put_a_cubie_into_middle_layer(doNotLog); cnt++; y=-1;
 			} else if((!check_a_Cubie_Face_Color('uml', 'u', colorValues.yellow))&&(check_2_cubies_colors('uml', 'l', 'lmc', 'l'))) {
 				if(debug_alg1_mid_ctrl) console.log("make_middle_layer1 14=");
 				await handleSpecialMove('y', -1, doNotLog);
-				await alg1_put_a_cubie_into_middle_layer(doNotLog); cnt++; y=-1; 
-			} else { 
+				await alg1_put_a_cubie_into_middle_layer(doNotLog); cnt++; y=-1;
+			} else {
 				if(debug_alg1_mid_ctrl) console.log("make_middle_layer1 15=");
 				let q=0;
 				if(check_a_Cubie_Face_Color('umr', 'u', colorValues.yellow)||check_a_Cubie_Face_Color('umr', 'r', colorValues.yellow)) q++;
 				if(check_a_Cubie_Face_Color('buc', 'u', colorValues.yellow)||check_a_Cubie_Face_Color('buc', 'b', colorValues.yellow)) q++;
 				if(check_a_Cubie_Face_Color('fuc', 'u', colorValues.yellow)||check_a_Cubie_Face_Color('fuc', 'f', colorValues.yellow)) q++;
 				if(check_a_Cubie_Face_Color('uml', 'u', colorValues.yellow)||check_a_Cubie_Face_Color('uml', 'l', colorValues.yellow)) q++;
-				
+
 				if(q==4) break;
 
 				if((!check_a_Cubie_Face_Color('fuc', 'u', colorValues.yellow))&&(check_2_cubies_colors('fuc', 'f', 'rmc', 'r'))) {
@@ -2542,7 +2542,7 @@
 					await triggerMove('U', 1, doNotLog);
 					if(debug_alg1_mid_ctrl) console.log("make_middle_layer1 5=");
 				} else if((!check_a_Cubie_Face_Color('buc', 'u', colorValues.yellow))&&(check_2_cubies_colors('buc', 'b', 'lmc', 'l'))) {
-					await triggerMove('U', -1, doNotLog);		
+					await triggerMove('U', -1, doNotLog);
 					if(debug_alg1_mid_ctrl) console.log("make_middle_layer1 6=");
 				} else if((!check_a_Cubie_Face_Color('uml', 'u', colorValues.yellow))&&(check_2_cubies_colors('uml', 'l', 'fmc', 'f'))) {
 					await triggerMove('U', -1, doNotLog);
@@ -2562,29 +2562,29 @@
 				} else if((!check_a_Cubie_Face_Color('umr', 'r', colorValues.yellow))&&(check_2_cubies_colors('umr', 'u', 'fmc', 'f'))) {
 					await triggerMove('U', 1, doNotLog);
 					await handleSpecialMove('d', 1, doNotLog);
-				} else { 
+				} else {
 					await triggerMove('U', 1, doNotLog);
 					if(debug_alg1_mid_ctrl)  console.log("make_middle_layer1 9=");
 				}
-			}  		
+			}
 			if( debug_cnt) console.log("make_middle_layer1 y=", y);
         }
-		
+
 		return cnt;
     }
-	
-	
-	
 
-    async function alg1_make_middle_layer2(doNotLog = true) {	
-        let cnt = check_middle_cubies(); 
+
+
+
+    async function alg1_make_middle_layer2(doNotLog = true) {
+        let cnt = check_middle_cubies();
         if(cnt==4) return;
-		
+
 		if( debug_cnt) console.log("make_middle_layer2 cnt=", cnt);
-		
+
         for (let y = 0; y < 4; y++){
             if( !(check_2_cubies_colors('fmr', 'r', 'rmc', 'r') &&  check_2_cubies_colors('fmr', 'f', 'fmc', 'f'))) {
-                await handleSpecialMove('v', 1, doNotLog);              
+                await handleSpecialMove('v', 1, doNotLog);
                 await handleSpecialMove('y', 1, doNotLog);
                 await handleSpecialMove('t', 1, doNotLog);
 				cnt+= await  alg1_make_middle_layer1(doNotLog);
@@ -2592,7 +2592,7 @@
                 await handleSpecialMove('t', 1, doNotLog);
 				await handleSpecialMove('y', -1, doNotLog);
 			    await handleSpecialMove('v', 1, doNotLog);
-				cnt+= await  alg1_make_middle_layer1(doNotLog);			
+				cnt+= await  alg1_make_middle_layer1(doNotLog);
 			} else {
 				await handleSpecialMove('y', 1, doNotLog);
 			}
@@ -2602,59 +2602,59 @@
 		if( debug_cnt) console.log("make_middle_layer2 --cnt=", cnt);
 
     }
-	 
-	
-	
+
+
+
 	async function alg1_put_a_cubie_into_middle_layer(doNotLog = true) {
 			let v=0;
             if( check_2_cubies_colors('fuc', 'f', 'fmc', 'f')){
-               if( check_2_cubies_colors('fuc', 'u', 'rmc', 'r')) { 
-				await handleSpecialMove('v', 1, doNotLog); 
-				await handleSpecialMove('y', 1, doNotLog); 
-				await handleSpecialMove('t', 1, doNotLog); 
+               if( check_2_cubies_colors('fuc', 'u', 'rmc', 'r')) {
+				await handleSpecialMove('v', 1, doNotLog);
+				await handleSpecialMove('y', 1, doNotLog);
+				await handleSpecialMove('t', 1, doNotLog);
 				v=1;
 				}
 				else {
-					await handleSpecialMove('t', 1, doNotLog); 
-					await handleSpecialMove('y', -1, doNotLog); 
-					await handleSpecialMove('v', 1, doNotLog); 
+					await handleSpecialMove('t', 1, doNotLog);
+					await handleSpecialMove('y', -1, doNotLog);
+					await handleSpecialMove('v', 1, doNotLog);
 					v=-1;
 				}
-            }  
-			
+            }
+
 			return v;
     }
 
-   
+
     async function alg2_make_middle_and_bottom_layer(doNotLog = true) {
 		let c = cubiesPos['fur'];
-		
+
 		let cnt = check_white_corner_cubies();
-		if(cnt == 4) return;		
-		
-			
+		if(cnt == 4) return;
+
+
 		for (let x = 0; x < 4; x++){
 			console.log(`x=${x}`);
-		
+
 			let cFaceColors=getCubieFaceColors(c[0], c[1], c[2]);
-				
+
 			if( cFaceColors['f'] === colorValues.white) {
 				let theCb = find_its_middle_cubie('fur', 'u', 'r');
 				console.log(`f and theCb=${theCb}`);
 				if(theCb==='uml') {
 					while(!check_2_cubies_colors('fur', 'r', 'rmc', 'r')) {
-						await handleSpecialMove('d', -1, doNotLog); 
+						await handleSpecialMove('d', -1, doNotLog);
 					}
 					if(check_2_cubies_colors('fur', 'r', 'uml', 'u')) {
-						await handleSpecialMove('y', 1, doNotLog); 
-						await handleSpecialMove('t', -1, doNotLog); 	
+						await handleSpecialMove('y', 1, doNotLog);
+						await handleSpecialMove('t', -1, doNotLog);
 					} else {
-						await handleSpecialMove('d', -1, doNotLog); 
-						await triggerMove('F', 1, doNotLog); 
+						await handleSpecialMove('d', -1, doNotLog);
+						await triggerMove('F', 1, doNotLog);
 						await triggerMove('U', 1, doNotLog);
 						await triggerMove('U', 1, doNotLog);
-						await triggerMove('F', -1, doNotLog); 
-						await handleSpecialMove('d', 1, doNotLog); 
+						await triggerMove('F', -1, doNotLog);
+						await handleSpecialMove('d', 1, doNotLog);
 						await handleSpecialMove('v', 1, doNotLog);     // g
 						cnt++;
 						if(cnt==4) break;
@@ -2662,29 +2662,29 @@
 					}
 				} else if(theCb==='buc') {
 					while(!check_2_cubies_colors('fur', 'r', 'rmc', 'r')) {
-						await handleSpecialMove('d', -1, doNotLog); 
+						await handleSpecialMove('d', -1, doNotLog);
 					}
 					if(check_2_cubies_colors('fur', 'r', 'buc', 'u')) {
 						await triggerMove('U', -1, doNotLog);
-						await handleSpecialMove('y', 1, doNotLog); 
-						await handleSpecialMove('t', -1, doNotLog); 	
+						await handleSpecialMove('y', 1, doNotLog);
+						await handleSpecialMove('t', -1, doNotLog);
 					} else {
-						await handleSpecialMove('d', -1, doNotLog); 
-						await triggerMove('F', 1, doNotLog); 
+						await handleSpecialMove('d', -1, doNotLog);
+						await triggerMove('F', 1, doNotLog);
 						await triggerMove('U', 1, doNotLog);
-						await triggerMove('F', -1, doNotLog); 
-						await handleSpecialMove('d', 1, doNotLog); 
-						await handleSpecialMove('v', 1, doNotLog); 	
+						await triggerMove('F', -1, doNotLog);
+						await handleSpecialMove('d', 1, doNotLog);
+						await handleSpecialMove('v', 1, doNotLog);
 						cnt++;
 						if(cnt==4) break;
 						x=-1;
 					}
 				} else if(theCb==='umr') {
 					while(!check_2_cubies_colors('fur', 'r', 'rmc', 'r')) {
-						await handleSpecialMove('d', -1, doNotLog); 
+						await handleSpecialMove('d', -1, doNotLog);
 					}
 					if(check_2_cubies_colors('fur', 'r', 'umr', 'u')) {
-						await handleSpecialMove('d', -1, doNotLog); 
+						await handleSpecialMove('d', -1, doNotLog);
 						await triggerMove('F', 1, doNotLog);
 						await triggerMove('U', 1, doNotLog);
 						await triggerMove('U', 1, doNotLog);
@@ -2693,26 +2693,26 @@
 						await handleSpecialMove('t', -1, doNotLog); 	  // g
 						cnt++;
 						if(cnt==4) break;
-						x=-1;						
+						x=-1;
 					} else {
-						await handleSpecialMove('v', 1, doNotLog); 	
+						await handleSpecialMove('v', 1, doNotLog);
 						cnt++;
 						if(cnt==4) break;
-						x=-1;			
+						x=-1;
 					}
 				}
 				else if(theCb==='fuc') {
 					while(!check_2_cubies_colors('fur', 'r', 'rmc', 'r')) {
-						await handleSpecialMove('d', -1, doNotLog); 
+						await handleSpecialMove('d', -1, doNotLog);
 					}
 					if(check_2_cubies_colors('fur', 'r', 'fuc', 'u')) {
 						await triggerMove('U', 1, doNotLog);
 						await triggerMove('F', -1, doNotLog);
 						await triggerMove('U', 1, doNotLog);
 						await triggerMove('F', 1, doNotLog);
-						
-						await handleSpecialMove('d', -1, doNotLog); 
-						await handleSpecialMove('t', -1, doNotLog); 	
+
+						await handleSpecialMove('d', -1, doNotLog);
+						await handleSpecialMove('t', -1, doNotLog);
 					} else {
 						await triggerMove('U', 1, doNotLog);
 						await triggerMove('F', -1, doNotLog);
@@ -2720,13 +2720,13 @@
 						await triggerMove('U', -1, doNotLog);
 						await triggerMove('F', 1, doNotLog);
 						await triggerMove('U', -1, doNotLog);
-						await handleSpecialMove('d', -1, doNotLog); 
+						await handleSpecialMove('d', -1, doNotLog);
 						await triggerMove('F', 1, doNotLog);
 						await triggerMove('U', 1, doNotLog);
 						await triggerMove('F', -1, doNotLog);
-						await handleSpecialMove('d', 1, doNotLog); 
-						await handleSpecialMove('v', 1, doNotLog); 	
-						
+						await handleSpecialMove('d', 1, doNotLog);
+						await handleSpecialMove('v', 1, doNotLog);
+
 						cnt++;
 						if(cnt==4) break;
 						x=-1;
@@ -2738,11 +2738,11 @@
 						await triggerMove('R', 1, doNotLog);
 						await triggerMove('U', -1, doNotLog);
 						await triggerMove('R', -1, doNotLog);
-						
+
 						while(!check_2_cubies_colors('ful', 'f', 'fmc', 'f')) {
-							await handleSpecialMove('d', -1, doNotLog); 
+							await handleSpecialMove('d', -1, doNotLog);
 						}
-						
+
 						await handleSpecialMove('t', -1, doNotLog); 	// g
 						x=-1;
 						cnt++;
@@ -2755,30 +2755,30 @@
 						await triggerMove('U', -1, doNotLog);
 
 						while(!check_2_cubies_colors('ful', 'f', 'fmc', 'f')) {
-							await handleSpecialMove('d', -1, doNotLog); 
+							await handleSpecialMove('d', -1, doNotLog);
 						}
-						await handleSpecialMove('t', -1, doNotLog); 	
+						await handleSpecialMove('t', -1, doNotLog);
 						x=-1;
 						cnt++;
-						if(cnt==4) break;					
+						if(cnt==4) break;
 					}
 				} else if(theCb==='bmr') {
-						await handleSpecialMove('d', -1, doNotLog); 	
-						x=-1;	
+						await handleSpecialMove('d', -1, doNotLog);
+						x=-1;
 				} else if(theCb==='bml') {
-						await handleSpecialMove('d', -1, doNotLog); 	
-						await handleSpecialMove('d', -1, doNotLog); 	
-						x=-1;					
+						await handleSpecialMove('d', -1, doNotLog);
+						await handleSpecialMove('d', -1, doNotLog);
+						x=-1;
 				} else if(theCb==='fml') {
-						await handleSpecialMove('d', 1, doNotLog); 	
-						x=-1;					
-				}				
+						await handleSpecialMove('d', 1, doNotLog);
+						x=-1;
+				}
 			} else if( cFaceColors['u'] === colorValues.white) {
 				let theCb = find_its_middle_cubie('fur', 'f', 'r');
-				console.log(`u and theCb=${theCb}`);	
+				console.log(`u and theCb=${theCb}`);
 				if(theCb==='uml') {
 					while(!check_2_cubies_colors('uml', 'u', 'fmc', 'f')) {
-						await handleSpecialMove('d', -1, doNotLog); 
+						await handleSpecialMove('d', -1, doNotLog);
 					}
 					if(check_2_cubies_colors('uml', 'l', 'lmc', 'l')) {
 						await triggerMove('L', -1, doNotLog);
@@ -2786,7 +2786,7 @@
 						await triggerMove('U', -1, doNotLog);
 						await triggerMove('L', 1, doNotLog);
 
-						await handleSpecialMove('t', 1, doNotLog);		
+						await handleSpecialMove('t', 1, doNotLog);
 					} else {
 						await triggerMove('U', -1, doNotLog);
 						await triggerMove('U', -1, doNotLog);
@@ -2802,7 +2802,7 @@
 					}
 				} else if(theCb==='buc') {
 					while(!check_2_cubies_colors('buc', 'u', 'fmc', 'f')) {
-						await handleSpecialMove('d', -1, doNotLog); 
+						await handleSpecialMove('d', -1, doNotLog);
 					}
 					if(check_2_cubies_colors('buc', 'b', 'lmc', 'l')) {
 						await triggerMove('U', -1, doNotLog);
@@ -2811,7 +2811,7 @@
 						await triggerMove('U', -1, doNotLog);
 						await triggerMove('L', 1, doNotLog);
 
-						await handleSpecialMove('t', 1, doNotLog);		
+						await handleSpecialMove('t', 1, doNotLog);
 					} else {
 						await triggerMove('U', 1, doNotLog);
 
@@ -2824,7 +2824,7 @@
 					}
 				} else if(theCb==='umr') {
 					while(!check_2_cubies_colors('umr', 'u', 'fmc', 'f')) {
-						await handleSpecialMove('d', -1, doNotLog); 
+						await handleSpecialMove('d', -1, doNotLog);
 					}
 					if(check_2_cubies_colors('umr', 'r', 'lmc', 'l')) {
 						await triggerMove('F', 1, doNotLog);
@@ -2837,7 +2837,7 @@
 						await triggerMove('U', 1, doNotLog);
 						await triggerMove('L', 1, doNotLog);
 
-						await handleSpecialMove('t', 1, doNotLog);		
+						await handleSpecialMove('t', 1, doNotLog);
 					} else {
 						await triggerMove('R', 1, doNotLog);
 						await triggerMove('U', -1, doNotLog);
@@ -2847,29 +2847,29 @@
 						await triggerMove('U', -1, doNotLog);
 
 						await handleSpecialMove('v', -1, doNotLog);
-						
+
 						cnt++;
-						x=-1;						
+						x=-1;
 						if(cnt==4) break;
 					}
 				} else if(theCb==='fuc') {
 					while(!check_2_cubies_colors('fuc', 'u', 'fmc', 'f')) {
-						await handleSpecialMove('d', -1, doNotLog); 
+						await handleSpecialMove('d', -1, doNotLog);
 					}
 					if(check_2_cubies_colors('fuc', 'f', 'lmc', 'l')) {
-						await handleSpecialMove('d', 1, doNotLog); 
+						await handleSpecialMove('d', 1, doNotLog);
 						await triggerMove('F', -1, doNotLog);
 						await triggerMove('U', 1, doNotLog);
 						await triggerMove('U', 1, doNotLog);
 						await triggerMove('F', 1, doNotLog);
-					
+
 						await triggerMove('U', 1, doNotLog);
 						await triggerMove('F', -1, doNotLog);
 						await triggerMove('U', 1, doNotLog);
 						await triggerMove('F', 1, doNotLog);
-						await handleSpecialMove('d', -1, doNotLog); 			
+						await handleSpecialMove('d', -1, doNotLog);
 					} else {
-						await handleSpecialMove('d', 1, doNotLog);		
+						await handleSpecialMove('d', 1, doNotLog);
 						await triggerMove('R', -1, doNotLog);
 						await triggerMove('U', -1, doNotLog);
 						await triggerMove('R', 1, doNotLog);
@@ -2878,10 +2878,10 @@
 						await triggerMove('R', -1, doNotLog);
 						await triggerMove('U', 1, doNotLog);
 						await triggerMove('R', 1, doNotLog);
-						await handleSpecialMove('d', -1, doNotLog);		
+						await handleSpecialMove('d', -1, doNotLog);
 						await triggerMove('U', -1, doNotLog);
 
-						await handleSpecialMove('v', 1, doNotLog);		
+						await handleSpecialMove('v', 1, doNotLog);
 					}
 				} else if(theCb==='bmr') {   // middle cubie on the second layer
 					if(check_2_cubies_colors('fur', 'f', 'bmr', 'r')) {
@@ -2892,31 +2892,31 @@
 
 						await triggerMove('U', -1, doNotLog);
 						while(!check_2_cubies_colors('fur', 'u', 'fmc', 'f')) {
-							await handleSpecialMove('d', -1, doNotLog); 
+							await handleSpecialMove('d', -1, doNotLog);
 						}
 						await handleSpecialMove('v', 1, doNotLog);			// g
 						cnt++;
-						x=-1;						
+						x=-1;
 						if(cnt==4) break;
 					} else {
 						await triggerMove('B', 1, doNotLog);
 						await triggerMove('U', 1, doNotLog);
 						await triggerMove('B', -1, doNotLog);
-						
+
 						while(!check_2_cubies_colors('umr', 'r', 'rmc', 'r')) {
-							await handleSpecialMove('d', -1, doNotLog); 
+							await handleSpecialMove('d', -1, doNotLog);
 						}
 						await triggerMove('R', 1, doNotLog);
 						await triggerMove('U', -1, doNotLog);
 						await triggerMove('U', -1, doNotLog);
 						await triggerMove('R', -1, doNotLog);
-						
-						await handleSpecialMove('v', 1, doNotLog);		
+
+						await handleSpecialMove('v', 1, doNotLog);
 
 						cnt++;											// g
-						x=-1;						
+						x=-1;
 						if(cnt==4) break;
-						
+
 					}
 				} else if(theCb==='fmr') {
 						if(check_2_cubies_colors('fur', 'f', 'fmr', 'r')) {
@@ -2924,23 +2924,23 @@
 							await triggerMove('R', 1, doNotLog);
 							await triggerMove('U', 1, doNotLog);
 							await triggerMove('R', -1, doNotLog);
-							
+
 							while(!check_2_cubies_colors('fuc', 'u', 'fmc', 'f')) {
-								await handleSpecialMove('d', -1, doNotLog); 
+								await handleSpecialMove('d', -1, doNotLog);
 							}
-							
+
 							await triggerMove('U', -1, doNotLog);
 							await triggerMove('R', 1, doNotLog);
 							await triggerMove('U', -1, doNotLog);
 							await triggerMove('U', -1, doNotLog);
 							await triggerMove('R', -1, doNotLog);
-								
+
 							await handleSpecialMove('v', 1, doNotLog);			// g
-							
+
 							cnt++;
-							x=-1;						
+							x=-1;
 							if(cnt==4) break;
-						
+
 						} else {
 							await triggerMove('F', -1, doNotLog);
 							await triggerMove('U', 1, doNotLog);
@@ -2949,51 +2949,51 @@
 							await triggerMove('U', -1, doNotLog);
 
 							while(!check_2_cubies_colors('fur', 'u', 'fmc', 'f')) {
-								await handleSpecialMove('d', -1, doNotLog); 
+								await handleSpecialMove('d', -1, doNotLog);
 							}
-							
-							await handleSpecialMove('v', 1, doNotLog);			
-							
+
+							await handleSpecialMove('v', 1, doNotLog);
+
 							cnt++;
-							x=-1;						
+							x=-1;
 							if(cnt==4) break;
 						}
 				}
 			} else if( cFaceColors['r'] === colorValues.white) {
 				let theCb = find_its_middle_cubie('fur', 'f', 'u');
-				console.log(`r and theCb=${theCb}`);	
+				console.log(`r and theCb=${theCb}`);
 				if(theCb==='buc') {
 					while(!check_2_cubies_colors('fur', 'f', 'fmc', 'f')) {
-							await handleSpecialMove('d', -1, doNotLog); 
+							await handleSpecialMove('d', -1, doNotLog);
 					}
 
 					if(check_2_cubies_colors('fur', 'f', 'buc', 'u')) {
-						await handleSpecialMove('v', -1, doNotLog);	
-						
+						await handleSpecialMove('v', -1, doNotLog);
+
 						x=-1;
 						cnt++;
 						if(cnt==4) break;		// g
 					} else {
-						await handleSpecialMove('d', -1, doNotLog); 
+						await handleSpecialMove('d', -1, doNotLog);
 
 						await triggerMove('R', -1, doNotLog);
 						await triggerMove('U', -1, doNotLog);
 						await triggerMove('U', -1, doNotLog);
 						await triggerMove('R', 1, doNotLog);
-					
-						await handleSpecialMove('d', 1, doNotLog); 
 
-						await handleSpecialMove('y', 1, doNotLog); 
-						await handleSpecialMove('t', 1, doNotLog); 
+						await handleSpecialMove('d', 1, doNotLog);
 
-						x=-1;   
+						await handleSpecialMove('y', 1, doNotLog);
+						await handleSpecialMove('t', 1, doNotLog);
+
+						x=-1;
 						cnt++;
 						if(cnt==4) break;
 
 					}
 				} else if(theCb==='umr') {
 					while(!check_2_cubies_colors('fur', 'f', 'fmc', 'f')) {
-							await handleSpecialMove('d', -1, doNotLog); 
+							await handleSpecialMove('d', -1, doNotLog);
 					}
 
 					if(check_2_cubies_colors('fur', 'u', 'umr', 'u')) {
@@ -3002,19 +3002,19 @@
 						await triggerMove('R', -1, doNotLog);
 
 						await triggerMove('U', -1, doNotLog);
-						await handleSpecialMove('d', -1, doNotLog); 
-						await handleSpecialMove('t', -1, doNotLog); 
-						
+						await handleSpecialMove('d', -1, doNotLog);
+						await handleSpecialMove('t', -1, doNotLog);
+
 						x=-1;
 						cnt++;
 						if(cnt==4) break;
 					} else {
-						await handleSpecialMove('d', -1, doNotLog); 
+						await handleSpecialMove('d', -1, doNotLog);
 						await triggerMove('F', 1, doNotLog);
 						await triggerMove('U', -1, doNotLog);
 						await triggerMove('F', -1, doNotLog);
-						await handleSpecialMove('d', 1, doNotLog); 
-						await handleSpecialMove('v', -1, doNotLog);  
+						await handleSpecialMove('d', 1, doNotLog);
+						await handleSpecialMove('v', -1, doNotLog);
 						x=-1;
 						cnt++;
 						if(cnt==4) break;
@@ -3022,23 +3022,23 @@
 				} else if(theCb==='uml') {
 						if(check_2_cubies_colors('fur', 'u', 'uml', 'u')) {
 							while(!check_2_cubies_colors('fur', 'f', 'fmc', 'f')) {
-								await handleSpecialMove('d', -1, doNotLog); 
+								await handleSpecialMove('d', -1, doNotLog);
 							}
 
-							await handleSpecialMove('d', 1, doNotLog); 
+							await handleSpecialMove('d', 1, doNotLog);
 							await triggerMove('R', -1, doNotLog);
 							await triggerMove('U', -1, doNotLog);
 							await triggerMove('R', 1, doNotLog);
-							await handleSpecialMove('d', -1, doNotLog); 
-							
-							await handleSpecialMove('y', 1, doNotLog); 
+							await handleSpecialMove('d', -1, doNotLog);
+
+							await handleSpecialMove('y', 1, doNotLog);
 							await handleSpecialMove('t', 1, doNotLog);    // g
 							x=-1;
 							cnt++;
-							if(cnt==4) break;											
+							if(cnt==4) break;
 						} else {
-						
-						}				
+
+						}
 				} else if(theCb==='fmr') {
 					if(check_2_cubies_colors('fur', 'u', 'fmr', 'f')) {
 						await triggerMove('U', 1, doNotLog);
@@ -3048,13 +3048,13 @@
 						await triggerMove('F', 1, doNotLog);
 						await triggerMove('U', 1, doNotLog);
 						while(!check_2_cubies_colors('fur', 'f', 'fmc', 'f')) {
-							await handleSpecialMove('d', -1, doNotLog); 
+							await handleSpecialMove('d', -1, doNotLog);
 						}
-						await handleSpecialMove('v', -1, doNotLog);    //g 
+						await handleSpecialMove('v', -1, doNotLog);    //g
 
 						x=-1;
 						cnt++;
-						if(cnt==4) break;					
+						if(cnt==4) break;
 					} else {
 						await triggerMove('U', -1, doNotLog);
 						await triggerMove('U', -1, doNotLog);
@@ -3062,62 +3062,62 @@
 						await triggerMove('F', -1, doNotLog);
 						await triggerMove('U', -1, doNotLog);
 						await triggerMove('F', 1, doNotLog);
-						
+
 						await triggerMove('U', 1, doNotLog);
-						
-						
+
+
 						while(!check_2_cubies_colors('fur', 'f', 'fmc', 'f')) {
-							await handleSpecialMove('d', -1, doNotLog); 
+							await handleSpecialMove('d', -1, doNotLog);
 						}
-						await handleSpecialMove('v', -1, doNotLog); 
-						
+						await handleSpecialMove('v', -1, doNotLog);
+
 						x=-1;
 						cnt++;
 						if(cnt==4) break;
 					}
-				} else if(theCb==='fuc') { 
+				} else if(theCb==='fuc') {
 					if(check_2_cubies_colors('fur', 'f', 'fuc', 'u')) {
 						while(!check_2_cubies_colors('fur', 'f', 'fmc', 'f')) {
-							await handleSpecialMove('d', -1, doNotLog); 
+							await handleSpecialMove('d', -1, doNotLog);
 						}
-						
-						await handleSpecialMove('d', 1, doNotLog); 
-						
+
+						await handleSpecialMove('d', 1, doNotLog);
+
 						await triggerMove('R', -1, doNotLog);
 						await triggerMove('U', 1, doNotLog);
 						await triggerMove('U', 1, doNotLog);
 						await triggerMove('R', 1, doNotLog);
 
-						await handleSpecialMove('d', -1, doNotLog); 
+						await handleSpecialMove('d', -1, doNotLog);
 
 						await handleSpecialMove('v', -1, doNotLog);   // g
-						
+
 						x=-1;
 						cnt++;
 						if(cnt==4) break;
-						
+
 					} else {
-				
+
 					}
 				}
 			}
 			else await triggerMove('U', 1, doNotLog);
 		}
-		
+
 		return cnt;
 	}
-   
-	
+
+
 	async function alg2_make_middle_and_bottom_layer1(doNotLog = true) {
 		let cnt = check_white_corner_cubies();
-		if(cnt == 4) return;		
-		
+		if(cnt == 4) return;
+
 		if( debug_cnt) console.log("alg2_make_middle_and_bottom_layer1 1 cnt=", cnt);
-				
+
 		for (let x = 0; x < 4; x++){
 			if(check_if_a_corner_cubie_is_done('fdr', 'd', colorValues.white, 'fmc', 'f', 'rmc', 'r')){
 				if( debug_cnt) console.log("alg2_make_middle_and_bottom_layer 2 cnt=", cnt);
-				
+
 				if(!check_if_a_corner_cubie_is_done('fdl', 'd', colorValues.white, 'fmc', 'f', 'lmc', 'l')){
 					await handleSpecialMove('d', 1, doNotLog);
 				} else if(!check_if_a_corner_cubie_is_done('bdr', 'd', colorValues.white, 'bmc', 'b', 'rmc', 'r')){
@@ -3128,21 +3128,21 @@
 				}
 			} else {
 				if( debug_cnt)  console.log("alg2_make_middle_and_bottom_layer will be called");
-				
+
 				await handleSpecialMove('v', 1, doNotLog);
-				await alg2_make_middle_and_bottom_layer(doNotLog); 
+				await alg2_make_middle_and_bottom_layer(doNotLog);
 				cnt = check_white_corner_cubies();
-				
+
 				if( debug_cnt)  console.log("alg2_make_middle_and_bottom_layer1 2 cnt=", cnt);
-					
-				if(cnt == 4) break;		
+
+				if(cnt == 4) break;
 				x=-1;
 			}
 		}
 	}
-	
-	
-	
+
+
+
 	async function make_yellow_cross(doNotLog = true) {
 		let u=0;
 		for (let x = 0; x < 4; x++){
@@ -3164,15 +3164,15 @@
 					await handleSpecialMove('v', -1, doNotLog);
 					await triggerMove('F', -1, doNotLog);
 					u=1;
-					break;	
+					break;
 				} else if (check_a_Cubie_Face_Color('umr', 'u', colorValues.yellow)){
 					await triggerMove('U', -1, doNotLog);
 					await triggerMove('F', 1, doNotLog);
 					await handleSpecialMove('v', 1, doNotLog);
 					await triggerMove('F', -1, doNotLog);
 					u=1;
-					break;		
-				}		  			
+					break;
+				}
 			} else if (check_a_Cubie_Face_Color('uml', 'u', colorValues.yellow)){
 					if (check_a_Cubie_Face_Color('umr', 'u', colorValues.yellow)){
 						await triggerMove('F', 1, doNotLog);
@@ -3187,7 +3187,7 @@
 						await triggerMove('F', -1, doNotLog);
 						u=1;
 						break;
-					}	
+					}
 			} else if (check_a_Cubie_Face_Color('fuc', 'u', colorValues.yellow)){
 					if (check_a_Cubie_Face_Color('umr', 'u', colorValues.yellow)){
 						await triggerMove('U', -1, doNotLog);
@@ -3196,54 +3196,54 @@
 						await handleSpecialMove('v', 1, doNotLog);
 						await triggerMove('F', -1, doNotLog);
 						u=1;
-						break;									
+						break;
 					}
-			}		
+			}
 
 			if(u==0) {
 				await triggerMove('F', 1, doNotLog);
 				await handleSpecialMove('v', 1, doNotLog);
 				await triggerMove('F', -1, doNotLog);
-				await make_yellow_cross(doNotLog);		
+				await make_yellow_cross(doNotLog);
 			}
 
 		}
-		
+
 	}
-	
 
 
-    async function make_middle_cubie_and_center_cubie_same_color_for_yellow_cross(doNotLog = true) {	
-        for (let x = 0; x < 4; x++){	
+
+    async function make_middle_cubie_and_center_cubie_same_color_for_yellow_cross(doNotLog = true) {
+        for (let x = 0; x < 4; x++){
             let res = "";
             if(check_2_cubies_colors('buc', 'b', 'bmc', 'b')) { res+='b'; }
-            if(check_2_cubies_colors('umr', 'r', 'rmc', 'r')) { res+='r'; }	
-            if(check_2_cubies_colors('uml', 'l', 'lmc', 'l')) { res+='l'; } 
-            if(check_2_cubies_colors('fuc', 'f', 'fmc', 'f')) { res+='f'; }		
-            
+            if(check_2_cubies_colors('umr', 'r', 'rmc', 'r')) { res+='r'; }
+            if(check_2_cubies_colors('uml', 'l', 'lmc', 'l')) { res+='l'; }
+            if(check_2_cubies_colors('fuc', 'f', 'fmc', 'f')) { res+='f'; }
+
 			if(res.length==4) break;
             if(res.length==2){
-				if(res.includes('b') && res.includes('r')) { await handleSpecialMove('v', -1, doNotLog); await handleSpecialMove('w', 1, doNotLog); await triggerMove('U', 1, doNotLog); } 
+				if(res.includes('b') && res.includes('r')) { await handleSpecialMove('v', -1, doNotLog); await handleSpecialMove('w', 1, doNotLog); await triggerMove('U', 1, doNotLog); }
                 else if(res.includes('b') && res.includes('l')) { await handleSpecialMove('y', 1, doNotLog); await handleSpecialMove('v', -1, doNotLog); await handleSpecialMove('w', 1, doNotLog); await triggerMove('U', 1, doNotLog);  }
                 else if(res.includes('f') && res.includes('r')) { await handleSpecialMove('y', -1, doNotLog); await handleSpecialMove('v', -1, doNotLog); await handleSpecialMove('w', 1, doNotLog); await triggerMove('U', 1, doNotLog); }
                 else if(res.includes('f') && res.includes('l')) { await handleSpecialMove('y', -1, doNotLog); await handleSpecialMove('y', -1, doNotLog); await handleSpecialMove('v', -1, doNotLog); await handleSpecialMove('w', 1, doNotLog); await triggerMove('U', 1, doNotLog); }
                 else if(res.includes('f') && res.includes('b')) { await handleSpecialMove('v', -1, doNotLog); await handleSpecialMove('w', 1, doNotLog); await handleSpecialMove('y', -1, doNotLog);  await handleSpecialMove('v', -1, doNotLog); await handleSpecialMove('w', 1, doNotLog); await triggerMove('U', 1, doNotLog);}
                 else if(res.includes('l') && res.includes('r')) { await handleSpecialMove('y', 1,  doNotLog); await handleSpecialMove('v', -1, doNotLog); await handleSpecialMove('w', 1, doNotLog); await handleSpecialMove('y', -1, doNotLog); await handleSpecialMove('v', -1, doNotLog); await handleSpecialMove('w', 1, doNotLog); await triggerMove('U', 1, doNotLog);}
                 break;
-			} else {  
+			} else {
 				if( (check_2_cubies_colors('fuc', 'f', 'rmc', 'r')) ||  (check_2_cubies_colors('umr', 'r', 'bmc', 'b')) || (check_2_cubies_colors('buc', 'b', 'lmc', 'l')) || (check_2_cubies_colors('uml', 'l', 'fmc', 'f')) )  {
 					await triggerMove('U', -1, doNotLog);
 				} else if( (check_2_cubies_colors('fuc', 'f', 'lmc', 'l')) ||  (check_2_cubies_colors('umr', 'r', 'fmc', 'f')) || (check_2_cubies_colors('buc', 'b', 'rmc', 'r')) || (check_2_cubies_colors('uml', 'l', 'bmc', 'b')) )  {
 					await triggerMove('U', 1, doNotLog);
 				}else await triggerMove('U', 1, doNotLog);
-			}		
+			}
 		}
 	}
 
-	
-    async function make_yellow_corner_cubies_in_place(doNotLog = true) {	
+
+    async function make_yellow_corner_cubies_in_place(doNotLog = true) {
 		await handleSpecialMove('x', -1, doNotLog);
-	
+
 		for (let x = 0; x < 4; x++){
 			if(check_if_a_cubie_is_in_right_place('ful', colorValues.yellow, 'umc', 'lmc')) {
 				if(check_if_a_cubie_is_in_right_place('fur', colorValues.yellow, 'umc', 'rmc',)) {
@@ -3276,14 +3276,14 @@
 				await handleSpecialMove('v', -1, doNotLog);
 				await triggerMove('D', -1, doNotLog);
 			}
-		}		
+		}
 	}
-	
-	
-	 async function make_yellow_corner_cubies_face_down(doNotLog = true) {	
-	
+
+
+	 async function make_yellow_corner_cubies_face_down(doNotLog = true) {
+
 		await handleSpecialMove('x', -1, doNotLog);
-	
+
 		for (let x = 0; x < 4; x++){
 			if(check_a_Cubie_Face_Color('fdr', 'f', colorValues.yellow)) {
 				await handleSpecialMove('v', 1, doNotLog);
@@ -3297,32 +3297,32 @@
 			await triggerMove('D', 1, doNotLog);
 		}
 	}
-	
-	
-    
+
+
+
 
 	function check_if_a_cubie_is_in_right_place(cubie1, expectedColor, cubie2, cubie3) {
-	
+
 			let f11 = cubie1[0], f12 = cubie1[1], f13 = cubie1[2], f2=cubie2[0]; f3 = cubie3[0];
 			let c1 = cubiesPos[cubie1], c2 = cubiesPos[cubie2], c3 = cubiesPos[cubie3];
 			let c1FaceColors = getCubieFaceColors(c1[0], c1[1], c1[2]);
 			let c2FaceColors = getCubieFaceColors(c2[0], c2[1], c2[2]);
 			let c3FaceColors = getCubieFaceColors(c3[0], c3[1], c3[2]);
-							
+
 			if (!(Object.values(c1FaceColors).includes(expectedColor)))  return false;
 			if (!(Object.values(c1FaceColors).includes(c2FaceColors[f2])))  return false;
 			if (!(Object.values(c1FaceColors).includes(c3FaceColors[f3])))  return false;
-			
+
 			return true;
 	}
-	
+
 	function speak(text) {
 	  const utterance = new SpeechSynthesisUtterance(text);
 	  utterance.lang = speakCurrentLang; // Set the language (BCP 47 Tag:  e.g., 'es-ES' for Spanish)
 	  speechSynthesis.speak(utterance);
 	}
-	
-	
+
+
 	async function speakOneByOne(text) {
 	  return new Promise((resolve, reject) => {
 		const utterance = new SpeechSynthesisUtterance(text);
@@ -3342,14 +3342,14 @@
 	  });
 	}
 
-	
+
 	function clickAbutton(x) {
-	
+
 		// Find the button by its ID
 		//const myButton = document.getElementById("button_"+x);
 		//myButton.click();
-		
-		
+
+
 		const btn = document.getElementById("button_"+x);
 		if (!btn) return;
 
@@ -3368,12 +3368,12 @@
 			btn.style.background = bc;
 		}, 200);
 	}
-	
-	
+
+
 	async function demoClickAbutton(x, s) {
-	
-		console.log("cmd ", x);		
-	
+
+		console.log("cmd ", x);
+
 		const btn = document.getElementById("button_"+x);
 		if (!btn) return;
 
@@ -3381,7 +3381,7 @@
 		btn.classList.add('btn-pressed');
 
 		let bc = btn.style.background;
-		
+
 		btn.style.background = "var(--highlight)";
 
 		await speakOneByOne(s);
@@ -3389,24 +3389,24 @@
 		// 2. Trigger the actual logic
 		btn.click();
 
-		// 3. Remove the style 
+		// 3. Remove the style
 
 		btn.classList.remove('btn-pressed');
 		btn.style.background = bc;
 	}
-		
+
 	async function cmdsAndSound(cmds) {
 		 cmdAndSounds = cmds.split(":");
 		 cmds = cmdAndSounds[0];
 		 sounds = cmdAndSounds[1];
-		 
+
 		 clickAbutton(cmds)
-		 
+
 		 await speakOneByOne(sounds);
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Highlights a specific cubie across all mirrors.
 	 * @param {string} cubieKey - The key from cubiesPos (e.g., 'umr')
@@ -3430,9 +3430,9 @@
 
 		// 2. Apply highlight to the target cubie in all mirror registries
 		registry.forEach(cube => {
-			const cubie = cube.cubies.find(c => 
-				parseInt(c.dataset.hx) === hx && 
-				parseInt(c.dataset.hy) === hy && 
+			const cubie = cube.cubies.find(c =>
+				parseInt(c.dataset.hx) === hx &&
+				parseInt(c.dataset.hy) === hy &&
 				parseInt(c.dataset.hz) === hz
 			);
 
@@ -3446,43 +3446,43 @@
 	function resetCube() {
 		resetFlag = 1;
 		if((cube_busy ==0)&&(playing==0))  { resetCubeOps();}
-		else {		
+		else {
 			logMessage(translations[currentLang]['wait_for_reset']);
 		}
 	}
-	
+
 	function resetCubeOps() {
 		resetCubeColors();
 		restartCubeOps(0);
-				
+
 		moveLog = [], currentPointer = 0; stage='1'; totalSteps = 0; pauseFlag = 0;  pause_cntrl = 0;
 		activeSelectedColor = '#ffffff';
-	
-		activeColor = null;  
+
+		activeColor = null;
 		fc_cntrl = 0;
 		animSpeed = 550;
 		setSpeed(550);
-		
+
 		isAnimating = false;
-		
+
 		updateLogUI(0);
-		
+
 		resetFlag=0;
-		
+
 		currentLang = defaultLang;
 		speakCurrentLang = (currentLang === 'zh') ? 'zh-CN' : 'en-US';
 		document.getElementById('lang-select').value = currentLang;
-		
+
 		const radio = document.getElementById('pause-toggle');
 		radio.checked = false;
-		radio.dataset.checked = "false";	
-		
+		radio.dataset.checked = "false";
+
 		changeLanguage(currentLang);
-			
+
 		logMessage(translations[currentLang]['reset-is-done'], 0);
 	}
-	
-	
+
+
 	function resetCubeColors() {
 		// Define the original mapping based on your initial setup
 		const originalMapping = {
@@ -3499,11 +3499,11 @@
 			cubeInstance.cubies.forEach(cubie => {
 				// Find each face within the cubie
 				const faces = cubie.querySelectorAll('.face');
-				
+
 				faces.forEach(face => {
 					// Identify which face it is by its class (u, d, f, etc.)
 					const faceClass = Array.from(face.classList).find(c => originalMapping[c]);
-					
+
 					if (faceClass) {
 						// Reset the background to the original color
 						face.style.background = originalMapping[faceClass];
@@ -3513,14 +3513,14 @@
 		});
 
 		console.log("Cube colors have been reset to original.");
-		
+
 		// Optional: Clear the Messages display
 		//logMessage("Cube Reset Done!");
 	}
 
 	function changeLanguage(lang) {
 		currentLang = lang;
-		
+
 		// Find all elements marked for translation
 		document.querySelectorAll('[data-i18n]').forEach(el => {
 			const key = el.getAttribute('data-i18n');
@@ -3528,26 +3528,26 @@
 				el.innerText = translations[lang][key];
 			}
 		});
-		
+
 		// 2. Update Tooltips (Titles and Data-attributes)
 		document.querySelectorAll('[data-i18n-tip]').forEach(el => {
 			const key = el.getAttribute('data-i18n-tip');
 			const translatedText = translations[lang][key];
-			
+
 			if (translatedText) {
 				// Update native browser tooltip
 				if (el.hasAttribute('title')) el.setAttribute('title', translatedText);
-				
+
 				// Update custom CSS tooltip if you are using it
 				if (el.hasAttribute('data-tooltip')) el.setAttribute('data-tooltip', translatedText);
 			}
 		});
-	
-	
+
+
 
 		// Optional: If you use the speak() function, update its lang too
 		speakCurrentLang = (lang === 'zh') ? 'zh-CN' : 'en-US';
-		
+
 		//console.log(`Language changed to: ${lang}`);
 	}
 
@@ -3557,25 +3557,25 @@
 		if(f==1) {
 			msgBox.innerText += "* " + newText + "\n";
 		} else {
-			msgBox.innerText = "* " + newText + "\n";	
+			msgBox.innerText = "* " + newText + "\n";
 		}
-		
+
 		// Auto-scroll to the bottom if the box gets full
 		const container = document.querySelector('.message-group'); // Target the scrolling parent
 		if (container) {
 			container.scrollTop = container.scrollHeight;
 		}
 	}
-	
+
 	function clearMsg(){
 		const msgBox = document.getElementById('Messages-id');
-		 
+
 		msgBox.innerText="";
-		
+
 	}
-	
-	
-	
+
+
+
 
     function createCubies(container, arr) {
         container.innerHTML = '';
@@ -3629,7 +3629,7 @@
 	function waitForClick() {
 		return new Promise((resolve) => {
 			const btn = document.getElementById('stepBtn');
-			
+
 			// Highlight the button so the user knows they need to click it
 			btn.style.boxShadow = "0 0 15px #ff9900";
 
@@ -3648,19 +3648,19 @@
     async function triggerMove(face, direction, doNotLog = false) {
 		if (isAnimating) return;
 		isAnimating = true;
-				
+
 		if(	single_step_ctrl==1) {
 			// Wait for the user to give the green light
 			console.log(`Waiting to execute: ${face}${direction === -1 ? "'" : ""}`);
 			await waitForClick();
 		}
-				
-				
-				
+
+
+
 		if (!doNotLog) {
 			n=`${face}${direction === -1 ? "'" : ""}`;
 			if (moveLog.length > 0) {
-				f=moveLog[moveLog.length - 1]; 
+				f=moveLog[moveLog.length - 1];
 				if(f==n) {
 					moveLog[moveLog.length - 1]=n+'2';
 				} else {
@@ -3671,7 +3671,7 @@
 			}
 			updateLogUI();
 		}
-		
+
 		if(face=='U') {direction = -direction;}
 		if(face=='L') {direction = -direction;}
 		if(face=='B') {direction = -direction;}
@@ -3688,12 +3688,12 @@
 			const layer = reg.cubies.filter(c => {
 				const m = new DOMMatrix(getComputedStyle(c).transform);
 				const cx = Math.round(m.m41 / 52), cy = Math.round(m.m42 / 52), cz = Math.round(m.m43 / 52);
-				
+
 				// Standard Faces
 				if (face === 'U') return cy === -1; if (face === 'D') return cy === 1;
 				if (face === 'L') return cx === -1; if (face === 'R') return cx === 1;
 				if (face === 'F') return cz === 1;  if (face === 'B') return cz === -1;
-				
+
 				// Middle/Slice Layers
 				if (face === 'M') return cx === 0;  // Vertical middle (between L and R)
 				if (face === 'E') return cy === 0;  // Horizontal middle (between U and D)
@@ -3707,9 +3707,9 @@
 			layer.forEach(c => pivot.appendChild(c));
 
 			// Determine Rotation Axis
-			const axis = (face === 'U' || face === 'D' || face === 'E') ? 'Y' : 
+			const axis = (face === 'U' || face === 'D' || face === 'E') ? 'Y' :
 						 (face === 'L' || face === 'R' || face === 'M') ? 'X' : 'Z';
-			
+
 			pivot.style.transition = `transform ${speed}ms cubic-bezier(0.4, 0, 0.2, 1)`;
 			pivot.getBoundingClientRect(); // trigger reflow
 			pivot.style.transform = `rotate${axis}(${angle}deg)`;
@@ -3725,7 +3725,7 @@
 
 		await new Promise(r => setTimeout(r, parseInt(speed) + 10));
 		isAnimating = false;
-		
+
 		totalSteps++;
 		// Add this line to update the display
 		updateSteps(stage);
@@ -3737,7 +3737,7 @@
 		if (!doNotLog) {
 			n=`${type}${direction === -1 ? "'" : ""}`;
 			if (moveLog.length > 0) {
-				f=moveLog[moveLog.length - 1]; 
+				f=moveLog[moveLog.length - 1];
 				if(f==n) {
 					moveLog[moveLog.length - 1]=n+'2';
 				} else {
@@ -3748,10 +3748,10 @@
 			}
 			updateLogUI();
 		}
-			
-		let q = `${type}${direction === -1 ? "p" : ""}`	
+
+		let q = `${type}${direction === -1 ? "p" : ""}`
         const algs = {
-            'v': [['U',1],['R',1],['U',-1],['R',-1]], 'vp': [['R',1],['U',1],['R',-1],['U',-1]], 
+            'v': [['U',1],['R',1],['U',-1],['R',-1]], 'vp': [['R',1],['U',1],['R',-1],['U',-1]],
 			'k': [['U',-1],['R',-1],['U',1],['R',1]], 'kp': [['R',-1],['U',-1],['R',1],['U',1]],
             'w': [['U',1],['U',1],['R',1],['U',-1],['U',-1],['R',-1]], 'wp': [['R',1],['U',1],['U',1],['R',-1],['U',-1],['U',-1]],
             't': [['U',-1],['L',-1],['U',1],['L',1]], 'tp': [['L',-1],['U',-1],['L',1],['U',1]],
@@ -3759,18 +3759,18 @@
             'y': [['U',1],['E',1],['D',-1]], 'yp': [['U',-1],['E',-1],['D',1]],
             'x': [['L',-1],['M',-1],['R',1]], 'xp': [['L',1],['M',1],['R',-1]],
             'z': [['B',1],['S',-1],['F',-1]], 'zp': [['B',-1],['S',1],['F',1]],
-			'l': [['L',1],['M',1]], 'lp': [['L',-1],['M',-1]], 
-			'r': [['R',1],['M',-1]], 'rp': [['R',-1],['M',1]], 
-			'b': [['B',1],['S',-1]], 'bp': [['B',-1],['S',1]], 
-			'f': [['F',1],['S',1]], 'fp': [['F',-1],['S',-1]], 
-			'u': [['U',1],['E',1]], 'up': [['U',-1],['E',-1]], 
+			'l': [['L',1],['M',1]], 'lp': [['L',-1],['M',-1]],
+			'r': [['R',1],['M',-1]], 'rp': [['R',-1],['M',1]],
+			'b': [['B',1],['S',-1]], 'bp': [['B',-1],['S',1]],
+			'f': [['F',1],['S',1]], 'fp': [['F',-1],['S',-1]],
+			'u': [['U',1],['E',1]], 'up': [['U',-1],['E',-1]],
 			'd': [['E',-1],['D',1]], 'dp': [['E',1],['D',-1]]
         };
         for (const m of algs[q]) await triggerMove(m[0], m[1], true);
     }
 
     function updateHUD(el) {
-        
+
     }
 
     function getDir(x,y,z) {
@@ -3792,45 +3792,45 @@
             el.style.transform = `translate3d(${el.dataset.hx*52}px, ${el.dataset.hy*52}px, ${el.dataset.hz*52}px)`;
             c.el.appendChild(el);
         }));
-        currentPointer = 0; 
-		updateLogUI(0); 
+        currentPointer = 0;
+		updateLogUI(0);
 		highlight(null);
 		totalSteps = 0;
 		stage='1';
-		
+
 		//updateSteps(stage);
 		document.getElementById('step-counter').innerText="";
-				
+
 		restartFlag=0;
 		cube_busy=0;
-		
+
 		if(f==1) {
 			logMessage( translations[currentLang]['restart-is-done']);
-		}	
+		}
 	}
 
    function updateLogUI(v = 1) {
 		const c = document.getElementById('move-input');
 		c.innerHTML = '';
-		
+
 		let activeElement = null; // Track the current active span
 
 		moveLog.forEach((m, i) => {
 			const s = document.createElement('span');
 			s.className = 'step-node' + (i === currentPointer ? ' step-active' : '');
-			
+
 			cmds=m.split(":");
-			if(cmds.length >1) { 
+			if(cmds.length >1) {
 				m=cmds[0];
 			}
-			
+
 			s.innerText = m;
-			
+
 			// Save reference if this is the active one
 			if (i === currentPointer) {
 				activeElement = s;
 			}
-			
+
 			c.appendChild(s);
 		});
 
@@ -3839,10 +3839,10 @@
 			c.scrollTop = c.scrollHeight;
 		} else if (activeElement) {
 			// Mode 0: Scroll the container only enough to show the active span
-			activeElement.scrollIntoView({ 
-				behavior: 'smooth', 
-				block: 'nearest', 
-				inline: 'start' 
+			activeElement.scrollIntoView({
+				behavior: 'smooth',
+				block: 'nearest',
+				inline: 'start'
 			});
 		}
 	}
@@ -3857,28 +3857,28 @@
 			'o': '#ff5800',
 			'y': '#ffd500'
 		};
-		
+
 		activeSelectedColor = colorMap[colorCode];
 		activeColor = activeSelectedColor;
 		//console.log("Selected Color:", activeSelectedColor);
-		
+
 		// Optional: If a cubie is highlighted, change its color immediately
 		// if (currentHighlightedCubie) {
 		//    change_cubie_color(currentHighlightedCubie, activeSelectedColor);
 		// }
 	}
 
-	
+
 
 	document.addEventListener('mousedown', (e) => {
 		if(fc_cntrl==0) return;
-	
+
 		// Only trigger if we click a face
 		const faceEl = e.target.closest('.face');
 		if (!faceEl) return;
 
 		const cubieEl = faceEl.parentElement;
-		
+
 		// 1. Get position from data attributes
 		const hx = cubieEl.dataset.hx;
 		const hy = cubieEl.dataset.hy;
@@ -3888,15 +3888,15 @@
 		const faceName = Array.from(faceEl.classList).find(c => c !== 'face');
 
 		// 3. Find the cubie's shorthand name (e.g., 'fmc') from cubiesPos
-		const cubieKey = Object.keys(cubiesPos).find(key => 
-			cubiesPos[key][0] == hx && 
-			cubiesPos[key][1] == hy && 
+		const cubieKey = Object.keys(cubiesPos).find(key =>
+			cubiesPos[key][0] == hx &&
+			cubiesPos[key][1] == hy &&
 			cubiesPos[key][2] == hz
 		);
 
 		// 4. Create the output string
 		//const output = `Cubie: ${cubieKey || 'Center'} [${hx},${hy},${hz}] | Face: ${faceName.toUpperCase()}`;
-		
+
 		// 5. Print to console and Messages area
 		//console.log(output);
 		//const msgBox = document.getElementById('Messages-id');
@@ -3909,10 +3909,10 @@
 		}
 	});
 
-	
+
 	function toggle_fc_ctrl(event) {
 		const radio = event.target;
-		
+
 		// Logic to allow a radio button to toggle off
 		if (radio.dataset.checked === "true") {
 			radio.checked = false;
@@ -3925,11 +3925,11 @@
 		}
 		//console.log("pause_cntrl is now:", pause_cntrl);
 	}
-	
-	
+
+
 	function toggleStepCntrl(event) {
 		const radio = event.target;
-		
+
 		// Logic to allow a radio button to toggle off
 		if (radio.dataset.checked === "true") {
 			radio.checked = false;
@@ -3952,7 +3952,7 @@
 	 */
 	function togglePauseCntrl(event) {
 		const radio = event.target;
-		
+
 		// Logic to allow a radio button to toggle off
 		if (radio.dataset.checked === "true") {
 			radio.checked = false;
@@ -3968,14 +3968,14 @@
 
 
 
-	
+
 	async function processCmds(c) {
 		c=c.trim();
 		cmds=c.split(' ');
-		
-		//console.log("cmds: ", cmds);	
-		
-		
+
+		//console.log("cmds: ", cmds);
+
+
 		switch (cmds[0]) {
 			case 'reset':
 				resetCube();
@@ -3996,10 +3996,10 @@
 				if(cmds[1]=='1') {
 					radio.checked = true;
 					radio.dataset.checked = "true";
-				} else {				
+				} else {
 					radio.checked = false;
-					radio.dataset.checked = "false";	
-				}				
+					radio.dataset.checked = "false";
+				}
 				break;
 			case 'pause':
 				pauseFlag=1;
@@ -4013,70 +4013,70 @@
 			case 'play':
 				if(cmds.length>1){currentPointer = cmds[1]; }
 				await handlePlayControl();
-				break;	
+				break;
 			case 'singleStep':
 				await stepMove();
-				break;	
+				break;
 			case 'speed':
 				if(cmds[1] <50) cmds[1] =50;
 				if(cmds[1] >1000) cmds[1] =1000;
 				setSpeed(cmds[1]);
-				break;	
+				break;
 			case 'size':
 				if(cmds[1] <0.5) cmds[1] =0.5;
 				if(cmds[1] >2.0) cmds[1] =2.0;
 				setSize(cmds[1]);
-				break;	
+				break;
 			case 'clearMsg':
 				clearMsg();
-				break;	
+				break;
 			case 'stateSaveCtrl':
 				hideShowElement(cmds[1] , "sl_state");
-				break;	
+				break;
 			case 'seqSaveCtrl':
 				hideShowElement(cmds[1] , "sl_seq");
-				break;		
-				
+				break;
+
 			case 'flash':
-				highlight(cmds[1]);		
+				highlight(cmds[1]);
 				setTimeout(() => {
 					highlight();
-				}, cmds[2]);		
-				break;	
-				
+				}, cmds[2]);
+				break;
+
 			case 'timeOut':
 				setTimeout(() => {
-				}, cmds[1]);		
-				break;		
-				
+				}, cmds[1]);
+				break;
+
 			case 'paint':
 				change_cubie_face_color(cmds[1],cmds[2],cmds[3]);   // ('fuc', 'f', 'grey');
-				break;				
+				break;
 		}
 	}
-	
-	
-	async function handlePlayControl() { 
+
+
+	async function handlePlayControl() {
 		playing=1;
-		while(currentPointer < moveLog.length) { 
+		while(currentPointer < moveLog.length) {
 			await stepMove();
 			if(pauseFlag==1) { pauseFlag=0; break;}
 			if(resetFlag==1) { resetCubeOps(); break;}
-			if(restartFlag==1) { restartCubeOps() ; break;}			
+			if(restartFlag==1) { restartCubeOps() ; break;}
 		}
 		playing=0;
 	}
-	
-	
-	
+
+
+
     async function stepMove() {
         if (currentPointer >= moveLog.length) return;
-        		
+
 		let m = moveLog[currentPointer];
-		
+
 		m=m.trim();
-		
-		if(m.substring(0,2) == "mk") { 
+
+		if(m.substring(0,2) == "mk") {
 			let n=m.substring(3);
 			if(n==99) {
 				pauseFlag = 1;
@@ -4086,15 +4086,15 @@
 				updateSteps(stage);
 				logMessage(translations[currentLang][stage]);
 
-				if(pause_cntrl == 1){pauseFlag = 1; } 
+				if(pause_cntrl == 1){pauseFlag = 1; }
 				if(stage == 100) 	{pauseFlag = 1; }   // pause when it is done even through there more items
 			}
 		} else if(m.substring(0,2) == "ms"){
 			let msg=m.substring(3);
 			msg=msg.trim();
 			if(msg.substring(0,2) != "//"){
-				logMessage(msg);		
-				await speakOneByOne(msg);			
+				logMessage(msg);
+				await speakOneByOne(msg);
 			}
 		} else if (m.substring(0,2) == "sp") {
 			speak(m.substring(3));
@@ -4107,44 +4107,44 @@
 		}
 		else {
 			cmds=m.split(":");
-			if( cmds.length > 1) {	
+			if( cmds.length > 1) {
 				m=cmds[0];
 				logMessage(cmds[1]);
-				await speakOneByOne(cmds[1]); 
-			} 
-			
+				await speakOneByOne(cmds[1]);
+			}
+
 			if( m[0] === m[0].toUpperCase() ) {
 				let dir = m.includes("'") ? -1 : 1;
-				await triggerMove(m[0], dir, true);					
+				await triggerMove(m[0], dir, true);
 				if(m.includes("2")) await triggerMove(m[0], dir, true);
-			} else { 
+			} else {
 				let dir = m.includes("'") ? -1 : 1;
-				await handleSpecialMove(m[0], dir, true);					
-				if(m.includes("2")) await handleSpecialMove(m[0], dir, true);	
-			}			
+				await handleSpecialMove(m[0], dir, true);
+				if(m.includes("2")) await handleSpecialMove(m[0], dir, true);
+			}
         }
-		currentPointer++; 
+		currentPointer++;
 		updateLogUI(0);
     }
-	
-	
+
+
 	function hideShowElement(flag, id) {
-	
+
 		if(flag==1) {
 			myDiv = document.getElementById(id);
 			// Add class to show
 			myDiv.classList.remove('hidden');
- 
-			
+
+
 		} else {
 			myDiv = document.getElementById(id);
 			// Add class to hide
 			myDiv.classList.add('hidden');
 		}
 	}
-	
-	
-	
+
+
+
 	function updateSteps(stage) {
 		if(stage == '100'){
 			document.getElementById('step-counter').innerText = translations[currentLang]['done']+ ', ' + translations[currentLang]['steps']+':'+totalSteps;
@@ -4153,12 +4153,12 @@
 			document.getElementById('step-counter').innerText = translations[currentLang]['stage']+': ' +stage + ', ' + translations[currentLang]['steps']+':'+totalSteps;
 		}
 	}
-	
-	
-	
+
+
+
 	function setSize(newValue) {
 		const speedSlider = document.getElementById('size-range');
-		
+
 		// 1. Update the actual value (e.g., between 0.5 and 2.0)
 		speedSlider.value = newValue;
 
@@ -4168,12 +4168,12 @@
 	}
 
 
-	
+
 	function setSpeed(newValue) {
-		//console.log("setSpeed ", newValue);	
-	
+		//console.log("setSpeed ", newValue);
+
 		const speedSlider = document.getElementById('speed-range');
-		
+
 		// 1. Update the actual value (e.g., between 50 and 1000)
 		speedSlider.value = newValue;
 
@@ -4183,28 +4183,28 @@
 	}
 
     function clearLog() { moveLog = []; currentPointer = 0; updateLogUI(0); }
-	
-    async function scramble(doNotLog = true) { 
+
+    async function scramble(doNotLog = true) {
 		st = stage;
-	
+
 		stage=0;
 		sp= document.getElementById('speed-range').value;
 		setSpeed(1049);   // speed up
-		
-		for(let i=0; i<30; i++) await triggerMove(['U','D','L','R','F','B','S','E','M'][Math.floor(Math.random()*9)], Math.random()>0.5?1:-1, false); 
-		
+
+		for(let i=0; i<30; i++) await triggerMove(['U','D','L','R','F','B','S','E','M'][Math.floor(Math.random()*9)], Math.random()>0.5?1:-1, false);
+
 		setSpeed(sp);	// set it back
-		
+
 		stage =st;
 	}
 
 
 	function toggle_helpMenu(event) {
 		const radio = event.target;
-	
+
 		const subCmds = document.getElementById('sub-cmds');
 		const helpCmds = document.getElementById('help-cmds');
-		
+
 		if (radio.dataset.checked === "true") {
 			radio.checked = false;
 			radio.dataset.checked = "false";
@@ -4215,9 +4215,9 @@
 			radio.dataset.checked = "true";
 			subCmds.style.visibility = 'visible' ;
 			helpCmds.style.visibility =  'visible';
-		}		
+		}
 	}
-	
+
 	function toggleVisibility(id, f) {
 		const element = document.getElementById(id);
 		if(f) element.style.visibility =  'visible';
@@ -4231,7 +4231,7 @@
 			// Convert the moveLog array to a string (space-separated)
 			const textToCopy = moveLog.join(' ');
 			await navigator.clipboard.writeText(textToCopy);
-			
+
 			logMessage("Sequence copied to clipboard!");
 		} catch (err) {
 			console.error('Failed to copy: ', err);
@@ -4247,7 +4247,7 @@
 
 			// Split by space or comma and filter out empty strings
 			const newMoves = text.trim().split(/[\s,]+/).filter(m => m.length > 0);
-			
+
 			if (newMoves.length > 0) {
 				// Update the moveLog and reset pointer
 				moveLog = newMoves;
@@ -4275,7 +4275,7 @@
 
 			const stateString = JSON.stringify(currentState);
 			await navigator.clipboard.writeText(stateString);
-			
+
 			logMessage("Cube state copied to clipboard!");
 		} catch (err) {
 			console.error('Copy State Error:', err);
@@ -4309,7 +4309,7 @@
 
 
 async function loadTestStates(stateName) {
-	 
+
 	stateData=[
 	  {
 		"id": "-1,-1,-1",
@@ -4420,14 +4420,14 @@ async function loadTestStates(stateName) {
 		"transform": "matrix3d(0, -1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 52, -52, 52, 1)"
 	  }
 	];
-	
+
 	loadCubeState(stateData);
-	
-	 
+
+
     }
-    
+
     async function loadTestSeqs(seqName) {
-	
+
 		seqs={
 			'intr':{
 				"moveLog": [
@@ -4439,7 +4439,7 @@ async function loadTestStates(stateName) {
 				 "ms:  魔方的面是： 前面F，背面B，左面L， 右面R， 顶层U， 底层D 。",
 				 "ms:  中间层是：   M层：左右面之间;  E层： 顶底层之间; S层： 前后面之间。",
 				 "ms: 转动格式：",
-				 "ms:  大写字母(F，B, L，R，U，D)代表90度顺时针转动。 比如，面对着右面，R就是转动右面顺时针90度。", 
+				 "ms:  大写字母(F，B, L，R，U，D)代表90度顺时针转动。 比如，面对着右面，R就是转动右面顺时针90度。",
 				 "ms:  用\‘表示逆时针转动90度， 比如  F\' 表示前面逆时针转动90度。",
 				 "ms:  M：转动方向与 L 相同（从左边看的顺时针）。",
 				 "ms:  E：转动方向与 D 相同（从下面看的顺时针）。",
@@ -4450,12 +4450,12 @@ async function loadTestStates(stateName) {
 				 "mk 99"
 			  ],
 			  "currentPointer": 0
-			},	
-			
+			},
+
 			'schemeBrief':{
 				"moveLog": [
 				"ms: 魔方恢复方法:  这里主要介绍的魔方恢复方法是一种初级方法，属于分层恢复法，简单易学，不是速拧法。",
-				"ms: 本魔方恢复法分5步：", 
+				"ms: 本魔方恢复法分5步：",
 				"ms:    1. 拼白色十字",
 				"ms:    2. 恢复中间层",
 				"ms:    3. 恢复白色层",
@@ -4466,11 +4466,11 @@ async function loadTestStates(stateName) {
 			  "currentPointer": 0
 			}
 		}
-		
+
 		loadSequence(seqs[seqName]);
 		await handlePlayControl();
-	 
-	}	
+
+	}
 
 	function playSeq(seqName) {
 		loadTestSeqs(seqName);
@@ -4480,16 +4480,16 @@ async function loadTestStates(stateName) {
 
 
     document.getElementById('speed-range').oninput = (e) => animSpeed = 1050 - e.target.value;
-    document.getElementById('size-range').oninput = (e) => { 
-		currentScale = e.target.value; 
-		
+    document.getElementById('size-range').oninput = (e) => {
+		currentScale = e.target.value;
+
 		// Update the main cube
-		mainCubeEl.style.transform = `scale(${currentScale}) rotateX(${rx}deg) rotateY(${ry}deg)`; 
-		
+		mainCubeEl.style.transform = `scale(${currentScale}) rotateX(${rx}deg) rotateY(${ry}deg)`;
+
 		// Update the mirror images
 		// We scale the mirrors by a factor of the currentScale (originally 0.45)
 		const mirrorScale = currentScale * 0.45;
-		
+
 		document.getElementById('cube-back').style.transform = `scale(${mirrorScale}) rotateY(180deg)`;
 		document.getElementById('cube-left').style.transform = `scale(${mirrorScale}) rotateY(90deg)`;
 		document.getElementById('cube-bottom').style.transform = `scale(${mirrorScale}) rotateX(90deg)`;
@@ -4501,16 +4501,16 @@ async function loadTestStates(stateName) {
 
     registry.forEach(c => createCubies(c.el, c.cubies));
     mainCubeEl.style.transform = `scale(0.7) rotateX(${rx}deg) rotateY(${ry}deg)`;
-	
+
 	//hideShowElement(0, "test1");
 	//hideShowElement(0, "test2");
 	//hideShowElement(0, "sl_state");
 	//hideShowElement(0, "sl_seq");
-	
+
 	toggleVisibility("sl_state", 1);
 	toggleVisibility("sl_seq", 1);
-	
-	
+
+
 </script>
 </body>
 </html>
