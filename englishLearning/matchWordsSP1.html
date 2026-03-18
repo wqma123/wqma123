@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Listening Quiz</title>
+<style>
+body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+
+button.word-btn { font-size: 30px; margin: 8px; padding: 12px 22px; width: 200px; }
+.correct { background-color: #c8facc; }
+.wrong { background-color: #faccac; }
+
+#controls { margin-top: 20px;}
+#buttons-container { display: flex; flex-direction: column; align-items: center; }
+@media (max-width: 600px) {
+  button.word-btn { width: 90%; font-size: 30px; }
+  #controls button { width: 90%; margin: 5px 0; }
+}
+
+#score-row { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 25px; flex-wrap: wrap; }
+#score-row span { font-size: 18px; }
+#reset-btn { padding: 6px 10px; font-size: 12px; }
+#speak-btn, #next-btn { font-size: 22px; padding: 10px 20px; }
+
+#wrong-section { display: none; margin-top: 20px; }
+#block-counter { margin-top: 10px; font-size: 20px; }
+#block-counter button { font-size: 18px; padding: 6px 12px; margin: 0 5px; }
+
+#result-pic { display: none; margin-top: 20px; width: 200px; height: 200px; 
+	 margin-left: auto;
+			margin-right: auto;
+			display: none;
+	object-fit: contain; }
+
+
+</style>
+</head>
+<body>
+
+<!-- HOME BUTTON -->
+<button id="homeBtn" onclick="goHome()">🏠 Home</button>
+
+<h2>Listen and Choose Words</h2>
+
+<div id="block-counter">
+  <button onclick="changeBlock(-1)">−</button>
+  Block: <span id="block-num">0</span>
+  <button onclick="changeBlock(1)">+</button>
+</div>
+
+<div id="score-row">
+  <span id="total-score">score: 0/0</span>
+  <button id="reset-btn" onclick="resetTotalScore()">🔄 Reset</button>
+</div>
+
+<div id="buttons-container"></div>
+
+<div id="controls">
+  <button id="speak-btn">🔊 Speak</button>
+  <button id="next-btn" onclick="nextSet()">Next➡️</button>
+</div>
+
+<img id="result-pic" src="" alt="Result">
+
+<div id="wrong-section">
+  <hr>
+  <h3>Wrong Selections:</h3>
+  <ul id="wrong-list"></ul>
+</div>
+
+<script>
+function goHome() { window.location.href = "index.html"; }
+
+const wordPool = ["many","use","time","out","any","said","spot","long","clean","old","year","will","near","our","saw",
+"only","if","her","give","us","your","try","him","line","thank","think","way","just","pizza","China","do", "yesterday", 
+"Saturday","mashmallow","live", "bubble", "from", "color", "web", "say", "by", "name", "has","learn","water","very",
+"thing", "close", "afternoon",
+"back", "soup", "snow", "row", "candy", 
+"how","new","need","know","what","when","where","who","bowl","great",
+"feed","feet","neat","now","ghost","gold","pick",
+"monday","Sunday","Tuesday",
+"left","right","fur","jump","for","late",
+"hot","keep","with","hop","bed","sleep","sunny","juice","help","bell","tell",
+"rain","cookie",
+"blue","pink","red","yellow","green","purple","brown","white","gray","orange","black",
+"zero","one","two","three","four","five","six","seven","eight","nine","ten","twelve",
+"morning",
+"today","everyday",
+"good","food","book","look","cook","wood","room","broom","door","spoon","bloon",
+"foot","root","spooky","school","igloo","floor","noon","too","zoo","cool","pool","moon","soon",
+"frog",
+"zebra","spider","cat","dog","fish","pig","tiger","ant","duck","whale","lion","snake","horse","fly",
+"butterfly","bug","mouse","deer","bird","cow","ox","fox","bat",
+
+"van","fan","like","kite","love",
+"tea","sea","eat","ear","nose","eye","egg","hat","car","bike","bus","beach","peach","take","make",
+"get","win","meet","ride","swim","swimming","wet","there","here","this","that","it","is","the","can",
+"in","on","of","off","to","at","are","he","she","my","me","mine", "open","big","sit","pit","zip",
+"pat","pet","pin","pop","nap","no","yes","run","fun","flag","leg","toy","boy","cup","up","put","down",
+"town","downtown","baby","sun","bag","ball","fall","all","dig","lot","job","paint","feel","every",
+"much","stop","ice","nice","come","go","soft","art","please","basket","want","butter","log","box",
+"glitter","tag"
+];
+
+let counter = 0;
+let currentWords = [];
+let spokenOrder = [];
+let spokenIndex = 0;
+let userSelections = {};
+let quizActive = true;
+
+let totalCorrect = parseInt(localStorage.getItem("totalCorrect") || "0");
+let totalAttempts = parseInt(localStorage.getItem("totalAttempts") || "0");
+
+let wrongPairsSet = new Set();
+
+const speakBtn = document.getElementById("speak-btn");
+const wrongSection = document.getElementById("wrong-section");
+const wrongList = document.getElementById("wrong-list");
+const blockNum = document.getElementById("block-num");
+const resultPic = document.getElementById("result-pic");
+
+resultPic.onclick = () => nextSet();
+
+// Audio
+const yesSound = new Audio("yesS.m4a");
+const noSound = new Audio("noS.m4a");
+
+function updateScoreboard() {
+  let wrongCount = totalAttempts - totalCorrect
+  document.getElementById("total-score").textContent = `score: ${wrongCount}/${totalAttempts}`;
+}
+
+function resetTotalScore() {
+  totalCorrect = 0;
+  totalAttempts = 0;
+  localStorage.setItem("totalCorrect", "0");
+  localStorage.setItem("totalAttempts", "0");
+  updateScoreboard();
+
+  wrongPairsSet.clear();
+  wrongList.innerHTML = "";
+  wrongSection.style.display = "none";
+}
+
+function changeBlock(delta) {
+  const maxBlock = Math.ceil(wordPool.length / 20);
+  counter += delta;
+  if (counter < 0) counter = 0;
+  if (counter > maxBlock) counter = maxBlock;
+  blockNum.textContent = counter;
+}
+
+function pickWords() {
+  let startIdx = 0, endIdx = wordPool.length;
+  if (counter > 0) {
+    startIdx = (counter - 1) * 20;
+    endIdx = Math.min(startIdx + 20, wordPool.length);
+  }
+  const blockWords = wordPool.slice(startIdx, endIdx);
+  currentWords = [...blockWords].sort(() => 0.5 - Math.random()).slice(0, 4);
+  startQuiz();
+}
+
+function startQuiz() {
+  spokenOrder = [...currentWords].sort(() => 0.5 - Math.random());
+  spokenIndex = 0;
+  userSelections = {};
+  quizActive = true;
+  resultPic.style.display = "none";
+
+  updateScoreboard();
+  renderButtons();
+  speakNext();
+}
+
+function renderButtons() {
+  const container = document.getElementById("buttons-container");
+  container.innerHTML = "";
+  currentWords.forEach(word => {
+    const btn = document.createElement("button");
+    btn.textContent = word;
+    btn.className = "word-btn";
+    btn.onclick = () => selectWord(word);
+    container.appendChild(btn);
+  });
+}
+
+function speakNext() {
+  if (spokenIndex >= spokenOrder.length) return;
+  const utterance = new SpeechSynthesisUtterance(spokenOrder[spokenIndex]);
+  speechSynthesis.speak(utterance);
+}
+
+function selectWord(word) {
+  if (!quizActive || spokenIndex >= spokenOrder.length) return;
+
+  const currentWord = spokenOrder[spokenIndex];
+  userSelections[currentWord] = word;
+
+  renderButtonsColors();
+
+  if (word !== currentWord) {
+    const pairKey = `${currentWord} -> ${word}`;
+    if (!wrongPairsSet.has(pairKey)) {
+      wrongPairsSet.add(pairKey);
+      const li = document.createElement("li");
+      li.textContent = `"${currentWord}" --- "${word}"`;
+      wrongList.appendChild(li);
+      wrongSection.style.display = "block";
+    }
+  }
+
+  spokenIndex++;
+
+  if (spokenIndex >= spokenOrder.length) {
+    autoScoreSet();
+    return;
+  }
+
+  speakNext();
+}
+
+function autoScoreSet() {
+  quizActive = false;
+  let correct = 0;
+  const total = currentWords.length;
+
+  const buttons = document.querySelectorAll(".word-btn");
+  buttons.forEach(btn => btn.className = "word-btn");
+
+  for (let key in userSelections) {
+    const chosen = userSelections[key];
+    if (chosen === key) {
+      correct++;
+      buttons.forEach(b => { if (b.textContent === chosen) b.classList.add("correct"); });
+    } else {
+      buttons.forEach(b => { if (b.textContent === chosen) b.classList.add("wrong"); });
+    }
+  }
+
+  totalCorrect += correct;
+  totalAttempts += total;
+  localStorage.setItem("totalCorrect", totalCorrect);
+  localStorage.setItem("totalAttempts", totalAttempts);
+  updateScoreboard();
+
+  if (correct === total) {
+    resultPic.src = "yesPic.jpg";
+    yesSound.play();
+  } else {
+    resultPic.src = "noPic.jpg";
+    noSound.play();
+  }
+  resultPic.style.display = "block";
+}
+
+function renderButtonsColors() {
+  const buttons = document.querySelectorAll(".word-btn");
+  buttons.forEach(btn => btn.className = "word-btn");
+  for (let key in userSelections) {
+    const chosen = userSelections[key];
+    buttons.forEach(b => { if (b.textContent === chosen) b.classList.add("correct"); });
+  }
+}
+
+function nextSet() {
+  if (quizActive && spokenIndex < spokenOrder.length) {
+    for (let i = spokenIndex; i < spokenOrder.length; i++) {
+      const currentWord = spokenOrder[i];
+      const pairKey = `${currentWord} -> Skipped`;
+      if (!wrongPairsSet.has(pairKey)) {
+        wrongPairsSet.add(pairKey);
+        const li = document.createElement("li");
+        li.textContent = `"${currentWord}" --- Skipped`;
+        wrongList.appendChild(li);
+        wrongSection.style.display = "block";
+      }
+    }
+  }
+  pickWords();
+}
+
+ 
+speakBtn.onclick = () => {
+  if (!quizActive && spokenIndex >= spokenOrder.length) {
+    startQuiz();
+  } else {
+    speakNext();
+  }
+};
+
+updateScoreboard();
+pickWords();
+</script>
+</body>
+</html>

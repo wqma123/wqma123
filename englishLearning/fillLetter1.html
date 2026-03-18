@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Missing Letter Game</title>
+<style>
+    body { font-family: Arial; text-align:center; margin-top:40px; position: relative; }
+
+    #wordDisplay { font-size: 48px; margin-top: 20px; margin-bottom: 20px; }
+
+    .letter-btn {
+        font-size: 30px; padding: 10px 20px; margin: 5px;
+        border-radius: 10px; cursor: pointer;
+    }
+
+    #controlRow button {
+        font-size: 24px; padding: 10px 20px; margin: 10px;
+        border-radius: 10px; cursor: pointer;
+    }
+
+    #score { font-size: 18px; margin-top: 25px; }
+
+    /* Counter buttons */
+    #counterRow button {
+        font-size: 24px;
+        padding: 6px 14px;
+        margin: 0 10px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    /* CENTERED animated result image */
+    #resultImage {
+        margin-top: 20px;
+        height: 140px;
+
+        /* center */
+        margin-left: auto;
+        margin-right: auto;
+        display: none;
+
+        /* starting animation state */
+        opacity: 0;
+        transform: scale(0.5);
+        transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    /* when shown */
+    #resultImage.show {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+
+</style>
+</head>
+
+<body>
+
+<!-- HOME BUTTON -->
+<button id="homeBtn" onclick="goHome()">🏠 Home</button>
+
+<h1>Missing Letter Game</h1>
+
+<!-- COUNTER ROW -->
+<div id="counterRow" style="margin-top:10px; font-size:12px;">
+    <button onclick="changeCounter(-1)" style="font-size:12px; padding:6px 10px; border-radius:10px;">➖</button>
+    <span id="counterValue">Set: 0 (All Words)</span>
+    <button onclick="changeCounter(1)" style="font-size:12px; padding:6px 10px; border-radius:10px;">➕</button>
+</div>
+
+<!-- SCORE ROW -->
+<div style="margin-top:15px; font-size:22px;">
+    <span id="score">score: 0/0</span>
+    &nbsp;&nbsp;
+    <button onclick="resetTotalScore()" 
+            style="font-size:12px; padding:6px 10px; border-radius:10px; cursor:pointer;">
+        🔄 Reset
+    </button>
+</div>
+
+<div id="wordDisplay"></div>
+
+<div id="letterRow"></div>
+
+<div id="controlRow">
+    <button id="speakBtn">🔊 Speak</button>
+    <button id="nextBtn">➡️ Next</button>
+</div>
+
+<!-- ANIMATED RESULT IMAGE -->
+<img id="resultImage">
+
+<!-- WRONG LIST -->
+<hr style="margin-top:40px; margin-bottom:20px;">
+<div id="wrongList" style="font-size:22px;"></div>
+
+<script>
+function goHome() {
+    window.location.href = "index.html";
+}
+
+/* MASTER WORD LIST */
+const words = ["many","use","time","out","any","said","spot","long","clean","old","year","will","near","our","saw",
+"only","if","her","give","us","your","try","him","line","thank","think","way","just","pizza","China","do", "yesterday", 
+"Saturday","mashmallow","live", "bubble", "from", "color", "web", "say", "by", "name", "has","learn","water","very",
+"thing", "close", "afternoon",
+"back", "soup", "snow", "row", "candy", 
+"how","new","need","know","what","when","where","who","bowl","great",
+"feed","feet","neat","now","ghost","gold","pick",
+"monday","Sunday","Tuesday",
+"left","right","fur","jump","for","late",
+"hot","keep","with","hop","bed","sleep","sunny","juice","help","bell","tell",
+"rain","cookie",
+"blue","pink","red","yellow","green","purple","brown","white","gray","orange","black",
+"zero","one","two","three","four","five","six","seven","eight","nine","ten","twelve",
+"morning",
+"today","everyday",
+"good","food","book","look","cook","wood","room","broom","door","spoon","bloon",
+"foot","root","spooky","school","igloo","floor","noon","too","zoo","cool","pool","moon","soon",
+"frog",
+"zebra","spider","cat","dog","fish","pig","tiger","ant","duck","whale","lion","snake","horse","fly",
+"butterfly","bug","mouse","deer","bird","cow","ox","fox","bat",
+
+"van","fan","like","kite","love",
+"tea","sea","eat","ear","nose","eye","egg","hat","car","bike","bus","beach","peach","take","make",
+"get","win","meet","ride","swim","swimming","wet","there","here","this","that","it","is","the","can",
+"in","on","of","off","to","at","are","he","she","my","me","mine", "open","big","sit","pit","zip",
+"pat","pet","pin","pop","nap","no","yes","run","fun","flag","leg","toy","boy","cup","up","put","down",
+"town","downtown","baby","sun","bag","ball","fall","all","dig","lot","job","paint","feel","every",
+"much","stop","ice","nice","come","go","soft","art","please","basket","want","butter","log","box",
+"glitter","tag"
+];
+
+let removedLetter = "";
+let correctCount = 0;
+let correctCountInc = 0;
+let wrongCount = 0;
+let currentWord = "";
+let currentMaskedWord = "";
+let letterChosen = false;
+
+/* Counter */
+let setCounter = 0;
+
+/* Sounds */
+const yesSound = new Audio("yesS.m4a");
+const noSound = new Audio("noS.m4a");
+
+/* IMAGE FUNCTIONS */
+function showImage(src) {
+    const img = document.getElementById("resultImage");
+    img.src = src;
+    img.style.display = "block";
+
+    // restart animation
+    img.classList.remove("show");
+    void img.offsetWidth;
+    img.classList.add("show");
+}
+
+function clearImage() {
+    const img = document.getElementById("resultImage");
+    img.classList.remove("show");
+    setTimeout(() => img.style.display = "none", 200);
+}
+
+/* COUNTER HANDLING */
+function changeCounter(delta) {
+    setCounter += delta;
+    if (setCounter < 0) setCounter = 0;
+
+    let totalSets = Math.ceil(words.length / 20);
+    if (setCounter > totalSets) setCounter = totalSets;
+
+    updateCounterDisplay();
+
+    letterChosen = false;
+    pickWord();
+    speakWord();
+    clearImage();
+}
+
+function updateCounterDisplay() {
+    let label = document.getElementById("counterValue");
+
+    if (setCounter === 0) {
+        label.textContent = "Set: 0 (All Words)";
+    } else {
+        let start = (setCounter - 1) * 20 + 1;
+        let end = Math.min(setCounter * 20, words.length);
+        label.textContent = `Set: ${setCounter} (${start}–${end})`;
+    }
+}
+
+function getActiveWordPool() {
+    if (setCounter === 0) return words;
+
+    let start = (setCounter - 1) * 20;
+    let end = Math.min(setCounter * 20, words.length);
+    return words.slice(start, end);
+}
+
+/* SCORE PERSISTENCE */
+function loadStoredScore() {
+    correctCount = Number(localStorage.getItem("ml_correct")) || 0;
+    wrongCount = Number(localStorage.getItem("ml_wrong")) || 0;
+    updateScore();
+}
+
+function saveScore() {
+    localStorage.setItem("ml_correct", correctCount);
+    localStorage.setItem("ml_wrong", wrongCount);
+}
+
+function resetTotalScore() {
+    localStorage.removeItem("ml_correct");
+    localStorage.removeItem("ml_wrong");
+    correctCount = 0;
+    wrongCount = 0;
+    updateScore();
+    document.getElementById("wrongList").innerHTML = "";
+    clearImage();
+}
+
+/* WORD PICKING */
+function pickWord() {
+    let pool = getActiveWordPool();
+    currentWord = pool[Math.floor(Math.random() * pool.length)];
+
+    let idx = Math.floor(Math.random() * currentWord.length);
+    removedLetter = currentWord[idx];
+
+    currentMaskedWord = currentWord.substring(0, idx) +
+        "<span style='color:red'>_</span>" +
+        currentWord.substring(idx + 1);
+
+    document.getElementById("wordDisplay").innerHTML = currentMaskedWord;
+
+    generateLetterButtons();
+	
+	correctCountInc=1;
+}
+
+function generateLetterButtons() {
+    let letterRow = document.getElementById("letterRow");
+    letterRow.innerHTML = "";
+
+    let letters = new Set();
+    letters.add(removedLetter);
+
+    while (letters.size < 4) {
+        let c = String.fromCharCode(97 + Math.floor(Math.random() * 26));
+        if (c !== removedLetter) letters.add(c);
+    }
+
+    let arr = Array.from(letters).sort(() => Math.random() - 0.5);
+
+    arr.forEach(l => {
+        let btn = document.createElement("button");
+        btn.className = "letter-btn";
+        btn.textContent = l;
+        btn.onclick = () => checkLetter(l);
+        letterRow.appendChild(btn);
+    });
+}
+
+/* CHECK LETTER */
+function checkLetter(l) {
+    letterChosen = true;
+
+    if (l === removedLetter) {
+        document.getElementById("wordDisplay").innerHTML =
+            "<span style='color:green'>" + currentWord + "</span>";
+
+        yesSound.volume = 1.0;
+        yesSound.currentTime = 0;
+        yesSound.play();
+
+        correctCount= correctCount+ correctCountInc;
+		correctCountInc=0;
+		
+        showImage("yesPic.jpg");
+
+    } else {
+        noSound.currentTime = 0;
+        noSound.play();
+
+        wrongCount++;
+        document.getElementById("wrongList").innerHTML += 
+            `<div>${currentMaskedWord} — <span style="color:red">${l}</span></div>`;
+
+        showImage("noPic.jpg");
+    }
+
+    updateScore();
+    saveScore();
+}
+
+function updateScore() {
+    document.getElementById("score").innerHTML =
+        "score: " + wrongCount  + "/" + correctCount;
+}
+
+function speakWord() {
+    speechSynthesis.speak(new SpeechSynthesisUtterance(currentWord));
+}
+
+/* NEXT BUTTON */
+document.getElementById("speakBtn").onclick = speakWord;
+
+document.getElementById("nextBtn").onclick = () => {
+
+    if (!letterChosen) {
+        wrongCount++;
+        document.getElementById("wrongList").innerHTML +=
+            `<div>${currentMaskedWord} — <span style="color:red">skipped</span></div>`;
+        updateScore();
+        saveScore();
+
+        showImage("noPic.jpg");
+    }
+
+    letterChosen = false;
+
+    pickWord();
+    speakWord();
+    clearImage();
+};
+
+document.getElementById("resultImage").onclick = () => {
+    document.getElementById("nextBtn").click();
+};
+
+
+/* INIT */
+loadStoredScore();
+updateCounterDisplay();
+pickWord();
+speakWord();
+</script>
+
+</body>
+</html>
